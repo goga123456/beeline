@@ -1675,13 +1675,13 @@ def send_nothing(message):
     # bot.reply_to(message, "ERROR")
 
 
-import schedule
+#import schedule
 
 
-def schedule_checker():
+"""def schedule_checker():
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(1)"""
 
 
 # schedule.every().day.at('03:30').do(send_email)
