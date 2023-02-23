@@ -64,7 +64,7 @@ def clear_sheet():
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
-    wb.save('example.xlsx')
+    wb.save('bot/data/example.xlsx')
    
 
 
