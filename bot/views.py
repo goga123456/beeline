@@ -345,6 +345,10 @@ def ask_language(message):
         print(user)
 
         print(lang_dict['start'][user.lang])
+        
+        if (message.text == '/start'):
+            process_start(message)
+            return
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn = types.KeyboardButton(lang_dict['start'][user.lang])
