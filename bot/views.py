@@ -340,15 +340,14 @@ def ask_language(message):
     try:
         chat_id = message.chat.id
         lang = message.text
-        user = User(lang)
-        user_dict[chat_id] = user
-        print(user)
-
-        print(lang_dict['start'][user.lang])
         
         if (lang == '/start'):
             process_start(message)
             return
+        
+        user = User(lang)
+        user_dict[chat_id] = user
+        print(user)
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn = types.KeyboardButton(lang_dict['start'][user.lang])
