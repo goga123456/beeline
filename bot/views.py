@@ -346,7 +346,7 @@ def ask_language(message):
 
         print(lang_dict['start'][user.lang])
         
-        if (message.text == '/start'):
+        if (lang == '/start'):
             process_start(message)
             return
 
