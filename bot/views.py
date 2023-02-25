@@ -23,7 +23,7 @@ telebot.logger.setLevel(logging.DEBUG)
 
 state_storage = StateMemoryStorage()
 
-bot = telebot.TeleBot(BOT_TOKEN, skip_pending = True)
+bot = telebot.TeleBot(BOT_TOKEN, drop_pending_updates = True)
 
 #bot.skip_pending = True
 
