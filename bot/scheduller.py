@@ -12,10 +12,6 @@ import email.mime.application
 sched = BlockingScheduler(timezone = "Asia/Tashkent")
 
 
-#@sched.scheduled_job('cron', hour=3)
-
-
-
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
@@ -61,13 +57,13 @@ def send_email():
     #clear_sheet()
 
 
-"""def clear_sheet():
+def clear_sheet():
     fn = 'bot/data/example.xlsx'
     wb = load_workbook(fn)
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
-    wb.save('bot/data/example.xlsx')"""
+    wb.save('bot/data/example.xlsx')
     
 sched.add_job(send_email, 'cron', hour='23', minute='20')   
 
