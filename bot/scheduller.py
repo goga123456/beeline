@@ -54,12 +54,12 @@ def send_email():
     server.quit()
 
     print("Successfully")
-    #clear_sheet()
+    clear_sheet()
 
 
 def clear_sheet():
-    fn = 'bot/data/example.xlsx'
-    wb = load_workbook(fn)
+    filename = 'bot/data/example.xlsx'
+    wb = load_workbook(filename)
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
