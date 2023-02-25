@@ -65,7 +65,7 @@ def clear_sheet():
     ws.delete_rows(2, nb_row)
     wb.save('bot/data/example.xlsx')
     
-sched.add_job(send_email, 'cron', hour='23', minute='30')   
+sched.add_job(send_email, 'cron', hour='0', minute='10')  
 
 
 sched.start()
