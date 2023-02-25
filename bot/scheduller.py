@@ -14,7 +14,7 @@ sched = BlockingScheduler()
 
 #@sched.scheduled_job('cron', hour=3)
 
-sched.add_job(send_email, 'cron', hour='3')
+
 
 def send_email():
     msg = MIMEMultipart("alternative")
@@ -68,7 +68,8 @@ def clear_sheet():
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
     wb.save('bot/data/example.xlsx')
-   
+    
+sched.add_job(send_email, 'cron', hour='3')   
 
 
 sched.start()
