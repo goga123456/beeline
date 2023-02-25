@@ -9,7 +9,7 @@ from openpyxl import load_workbook
 from apscheduler.schedulers.blocking import BlockingScheduler
 import email.mime.application
 
-sched = BlockingScheduler()
+sched = BlockingScheduler(timezone = "Asia/Tashkent")
 
 
 #@sched.scheduled_job('cron', hour=3)
