@@ -834,13 +834,13 @@ def ask_work_experience(message):
 
         birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
-        fn = 'bot/data/example.xlsx'
-        wb = load_workbook(fn)
+        filename = 'bot/data/example.xlsx'
+        wb = load_workbook(filename)
         ws = wb['Лист1']
         ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                    user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                    user.work_experience])
-        wb.save(fn)
+        wb.save(filename)
         wb.close()
 
         bot.send_message(message.chat.id, lang_dict['sendmail'][user.lang])
@@ -1150,13 +1150,13 @@ def edu(call):
 
             birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
-            fn = 'bot/data/example.xlsx'
-            wb = load_workbook(fn)
+            filename = 'bot/data/example.xlsx'
+            wb = load_workbook(filename)
             ws = wb['Лист1']
             ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                        user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                        user.work_experience])
-            wb.save(fn)
+            wb.save(filename)
             wb.close()
 
             say_thanks(message)
