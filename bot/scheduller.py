@@ -12,7 +12,10 @@ import email.mime.application
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('cron', hour=3)
+#@sched.scheduled_job('cron', hour=3)
+
+sched.add_job(send_email, 'cron', hour='3')
+
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
