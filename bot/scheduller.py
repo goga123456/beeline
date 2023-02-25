@@ -58,18 +58,18 @@ def send_email():
     server.quit()
 
     print("Successfully")
-    clear_sheet()
+    #clear_sheet()
 
 
-def clear_sheet():
+"""def clear_sheet():
     fn = 'bot/data/example.xlsx'
     wb = load_workbook(fn)
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
-    wb.save('bot/data/example.xlsx')
+    wb.save('bot/data/example.xlsx')"""
     
-sched.add_job(send_email, 'cron', hour='18')   
+sched.add_job(send_email, 'cron', hour='23', minute='20')   
 
 
 sched.start()
