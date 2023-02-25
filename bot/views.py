@@ -23,9 +23,9 @@ telebot.logger.setLevel(logging.DEBUG)
 
 state_storage = StateMemoryStorage()
 
-bot = telebot.TeleBot(BOT_TOKEN, drop_pending_updates = True)
+bot = telebot.TeleBot(BOT_TOKEN)
 
-#bot.skip_pending = True
+bot.drop_pending_updates = True
 
 
 class BotAPIView(View):
