@@ -25,8 +25,6 @@ state_storage = StateMemoryStorage()
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-bot.drop_pending_updates = True
-
 
 class BotAPIView(View):
     def post(self, request):
