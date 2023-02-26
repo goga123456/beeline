@@ -840,7 +840,7 @@ def ask_work_experience(message):
         ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                    user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                    user.work_experience])
-        wb.save('bot/data/example.xlsx')
+        wb.save(filename)
         print("saved 1")
         wb.close()
 
@@ -1157,7 +1157,7 @@ def edu(call):
             ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                        user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                        user.work_experience])
-            wb.save('bot/data/example.xlsx')
+            wb.save(filename)
             print("saved 2")
             wb.close()
 
