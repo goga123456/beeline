@@ -841,6 +841,7 @@ def ask_work_experience(message):
                    user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                    user.work_experience])
         wb.save('bot/data/example.xlsx')
+        print("saved 1")
         wb.close()
 
         bot.send_message(message.chat.id, lang_dict['sendmail'][user.lang])
@@ -1157,6 +1158,7 @@ def edu(call):
                        user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                        user.work_experience])
             wb.save('bot/data/example.xlsx')
+            print("saved 2")
             wb.close()
 
             say_thanks(message)
