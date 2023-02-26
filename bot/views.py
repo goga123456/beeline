@@ -837,10 +837,10 @@ def ask_work_experience(message):
         filename = 'bot/data/example.xlsx'
         wb = load_workbook(filename)
         ws = wb['Лист1']
-        ws.append(response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
+        ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                    user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
-                   user.work_experience)
-        wb.save(filename)
+                   user.work_experience])
+        wb.save('bot/data/example.xlsx')
         wb.close()
 
         bot.send_message(message.chat.id, lang_dict['sendmail'][user.lang])
@@ -1153,10 +1153,10 @@ def edu(call):
             filename = 'bot/data/example.xlsx'
             wb = load_workbook(filename)
             ws = wb['Лист1']
-            ws.append(response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
+            ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
                        user.town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
-                       user.work_experience)
-            wb.save(filename)
+                       user.work_experience])
+            wb.save('bot/data/example.xlsx')
             wb.close()
 
             say_thanks(message)
