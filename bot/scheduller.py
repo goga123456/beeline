@@ -54,7 +54,7 @@ def send_email():
     server.quit()
 
     print("Successfully")
-    clear_sheet()
+    #clear_sheet()
 
 
 def clear_sheet():
