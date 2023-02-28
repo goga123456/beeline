@@ -30,6 +30,9 @@ class BotAPIView(View):
 user_dict = {}
 current_shown_dates = {}
 filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
+os.system(f"chmod +x {filename}")
+
+
 lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные данные', 'Oʻzbek tili 🇺🇿': 'Notoʻgʻri maʻlumotlar'},
              'ask_name': {'Русский 🇷🇺': 'Напиши своё имя', 'Oʻzbek tili 🇺🇿': 'Ismingizni yozing'},
              'ask_surname': {'Русский 🇷🇺': 'Напиши свою фамилию', 'Oʻzbek tili 🇺🇿': 'Familiyangizni yozing'},
