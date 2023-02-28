@@ -16,7 +16,7 @@ sched = BlockingScheduler(timezone="Asia/Tashkent")
 filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
 
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=21, minute=20)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=21, minute=30)
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"

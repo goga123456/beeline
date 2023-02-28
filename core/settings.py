@@ -128,5 +128,5 @@ REST_FRAMEWORK = {
     ]
 }
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", '5875923517:AAHdupc3iddCYl-5XYQj79ZeCeU80cx28XU')
+BOT_TOKEN = os.environ.get("BOT_TOKEN", '5875923517:AAFc0N6qapOuEtAhc1obVU3Y5qQ6r5wQvT8')
 BOT_URL = os.environ.get("BOT_URL", 'https://d67f-84-54-66-73.eu.ngrok.io')
