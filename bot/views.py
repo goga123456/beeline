@@ -10,7 +10,7 @@ from telebot import types
 from telebot.storage import StateMemoryStorage
 
 from core.settings import BOT_TOKEN, BOT_URL
-
+import os
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
@@ -29,7 +29,7 @@ class BotAPIView(View):
 
 user_dict = {}
 current_shown_dates = {}
-
+filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
 lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные данные', 'Oʻzbek tili 🇺🇿': 'Notoʻgʻri maʻlumotlar'},
              'ask_name': {'Русский 🇷🇺': 'Напиши своё имя', 'Oʻzbek tili 🇺🇿': 'Ismingizni yozing'},
              'ask_surname': {'Русский 🇷🇺': 'Напиши свою фамилию', 'Oʻzbek tili 🇺🇿': 'Familiyangizni yozing'},
@@ -827,7 +827,6 @@ def ask_work_experience(message):
 
         birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
-        filename = 'bot/data/example.xlsx'
         wb = load_workbook(filename)
         ws = wb['Лист1']
         ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
@@ -1144,7 +1143,6 @@ def edu(call):
 
             birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
-            filename = 'bot/data/example.xlsx'
             wb = load_workbook(filename)
             ws = wb['Лист1']
             ws.append([response_date, user.surname, user.name, user.number, birthday, user.town, user.district,
