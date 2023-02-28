@@ -16,7 +16,7 @@ def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
     mypass = "cRYfj13YTp65wmluZxJU"
-    toaddr = "bukanov1234@mail.ru"
+    toaddr = "bukanov7070@mail.ru"
     msg['From'] = fromaddr
     msg['To'] = toaddr
     msg['Subject'] = "Отправитель: Telegram bot"
