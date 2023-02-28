@@ -9,7 +9,7 @@ from openpyxl import load_workbook
 from telebot import types
 from telebot.storage import StateMemoryStorage
 
-from core.settings import BOT_TOKEN, BOT_URL
+from core.settings import BOT_TOKEN, BOT_URL, FILE_EXCEL
 import os
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
@@ -29,7 +29,8 @@ class BotAPIView(View):
 
 user_dict = {}
 current_shown_dates = {}
-filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
+filename = FILE_EXCEL
+
 os.system(f"chmod +x {filename}")
 
 

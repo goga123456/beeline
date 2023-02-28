@@ -11,9 +11,11 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
 
+from core.settings import FILE_EXCEL
+
 sched = BlockingScheduler(timezone="Asia/Tashkent")
 
-filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
+filename = FILE_EXCEL
 # @sched.scheduled_job('cron', day_of_week='mon-fri', hour=20, minute=58)
 @sched.scheduled_job('interval', minutes=3)
 def send_email():
