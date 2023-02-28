@@ -17,7 +17,7 @@ sched = BlockingScheduler(timezone="Asia/Tashkent")
 
 filename = FILE_EXCEL
 # @sched.scheduled_job('cron', day_of_week='mon-fri', hour=20, minute=58)
-@sched.scheduled_job('interval', minutes=3)
+@sched.scheduled_job('interval', minutes=1)
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
