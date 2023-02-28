@@ -1,23 +1,16 @@
 import datetime
-import email
-import email.mime.application
 import logging
-import smtplib
-import ssl
-import time
 from datetime import datetime
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from threading import Thread
 
 import telebot
-from bs4 import BeautifulSoup as bs
 from django.http import JsonResponse
 from django.views import View
 from openpyxl import load_workbook
 from telebot import types
 from telebot.storage import StateMemoryStorage
+
 from core.settings import BOT_TOKEN, BOT_URL
+
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
@@ -340,11 +333,11 @@ def ask_language(message):
     try:
         chat_id = message.chat.id
         lang = message.text
-        
+
         if (lang == '/start'):
             process_start(message)
             return
-        
+
         user = User(lang)
         user_dict[chat_id] = user
         print(user)
@@ -356,7 +349,7 @@ def ask_language(message):
     except KeyError:
         bot.reply_to(message,
                      "Выберите один из вариантов 'Русский' или 'Ozbek tili'\n\n 'Русский' yoki 'Ozbek tili' parametrlaridan birini tanlang ")
-        bot.register_next_step_handler(message,ask_language)
+        bot.register_next_step_handler(message, ask_language)
 
 
 @bot.message_handler(content_types=['text'])
@@ -1607,7 +1600,6 @@ def edu(call):
         bot.reply_to(message, "ERROR")
 
 
-
 def send_nothing(message):
     # try:
     chat_id = message.chat.id
@@ -1625,9 +1617,8 @@ def send_nothing(message):
     # bot.reply_to(message, "ERROR")
 
 
-
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
-bot.set_webhook(
-    f'{BOT_URL}/bot')  # TODO: You should write your url which deployed this project
+bot.remove_webhook()
+bot.set_webhook(f'{BOT_URL}/bot')  # TODO: You should write your url which deployed this project

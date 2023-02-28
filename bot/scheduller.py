@@ -1,18 +1,22 @@
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+import email
+import email.mime.application
+import os
 import smtplib
 import ssl
 from datetime import datetime
-import email
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from apscheduler.schedulers.blocking import BlockingScheduler
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
-from apscheduler.schedulers.blocking import BlockingScheduler
-import email.mime.application
 
-sched = BlockingScheduler(timezone = "Asia/Tashkent")
+sched = BlockingScheduler(timezone="Asia/Tashkent")
 
-#@sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
-@sched.scheduled_job('interval', minutes=1)
+filename = f'{os.path.dirname(__file__)}/data/example.xlsx'
+
+
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=21, minute=5)
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
@@ -39,8 +43,6 @@ def send_email():
     text = bs(html, "html.parser").text
     msg.attach(MIMEText(text, 'plain'))
     msg.attach(MIMEText(html, 'html', 'utf-8'))
-
-    filename = 'bot/data/example.xlsx'
     fp = open(filename, 'rb')
     att = email.mime.application.MIMEApplication(fp.read(), _subtype="xlsx")
     fp.close()
@@ -48,7 +50,7 @@ def send_email():
     msg.attach(att)
 
     server = smtplib.SMTP_SSL('smtp.mail.ru:465')
-    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    ssl.SSLContext(ssl.PROTOCOL_TLS)
     server.login(msg['From'], mypass)
     text = msg.as_string()
     server.sendmail(msg['From'], msg['To'], text)
@@ -59,13 +61,11 @@ def send_email():
 
 
 def clear_sheet():
-    filename = 'bot/data/example.xlsx'
     wb = load_workbook(filename)
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
-    wb.save('bot/data/example.xlsx')
-    
-#sched.add_job(send_email, 'cron', hour='15', minute='17')
+    wb.save(filename)
+
 
 sched.start()
