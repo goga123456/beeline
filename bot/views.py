@@ -1625,4 +1625,3 @@ bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
 bot.set_webhook(f'{BOT_URL}/bot')  # TODO: You should write your url which deployed this project
-bot.skip_pending = True
