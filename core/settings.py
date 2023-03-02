@@ -131,3 +131,89 @@ REST_FRAMEWORK = {
 BOT_TOKEN = os.environ.get("BOT_TOKEN", '5875923517:AAFc0N6qapOuEtAhc1obVU3Y5qQ6r5wQvT8')
 BOT_URL = os.environ.get("BOT_URL", 'https://d67f-84-54-66-73.eu.ngrok.io')
 FILE_EXCEL = f'{os.path.dirname(__file__)}/../example.xlsx'
+
+
+
+import time
+from threading import Thread
+
+import schedule
+import email
+import email.mime.application
+import os
+import smtplib
+import ssl
+from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from apscheduler.schedulers.blocking import BlockingScheduler
+from bs4 import BeautifulSoup as bs
+from openpyxl import load_workbook
+
+from core.settings import FILE_EXCEL
+
+filename = FILE_EXCEL
+
+
+def schedule_checker():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
+def send_email():
+    msg = MIMEMultipart("alternative")
+    fromaddr = "bukanov1234@mail.ru"
+    mypass = "6bUc5jT7is5Yvz4pYHLf"
+    toaddr = "bukanov1234@mail.ru"
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = "Отправитель: Telegram bot"
+
+    now = datetime.now()
+    response_date = now.strftime("%d.%m.%Y")
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>        
+    <h1>Отчёт за: {response_date} </h1>      
+    </body>
+    </html>
+    """
+    text = bs(html, "html.parser").text
+    msg.attach(MIMEText(text, 'plain'))
+    msg.attach(MIMEText(html, 'html', 'utf-8'))
+    fp = open(filename, 'rb')
+    att = email.mime.application.MIMEApplication(fp.read(), _subtype="xlsx")
+    fp.close()
+    att.add_header('Content-Disposition', 'attachment', filename=filename)
+    msg.attach(att)
+
+    server = smtplib.SMTP_SSL('smtp.mail.ru:465')
+    ssl.SSLContext(ssl.PROTOCOL_TLS)
+    server.login(msg['From'], mypass)
+    text = msg.as_string()
+    server.sendmail(msg['From'], msg['To'], text)
+    server.quit()
+
+    print("Successfully")
+    clear_sheet()
+
+
+def clear_sheet():
+    wb = load_workbook(filename)
+    ws = wb['Лист1']
+    nb_row = ws.max_row
+    ws.delete_rows(2, nb_row)
+    wb.save(filename)
+
+
+schedule.every(1).minutes.do(send_email)
+thread = Thread(target=schedule_checker)
+thread.start()
+
