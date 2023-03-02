@@ -10,10 +10,18 @@ https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+import threading
 
 from core.settings import BASE_DIR
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 print(BASE_DIR)
-os.system(f'python {BASE_DIR}/bbb.py')
+
+
+def start():
+    os.system(f'python {BASE_DIR}/bbb.py')
+
+
+threading.Thread(target=start).start()
+
 application = get_wsgi_application()
