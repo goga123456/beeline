@@ -15,15 +15,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
 
-from core.settings import FILE_EXCEL
-
 filename = FILE_EXCEL
-
-
-def schedule_checker():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
 
 def send_email():
@@ -77,6 +69,9 @@ def clear_sheet():
     wb.save(filename)
 
 
-schedule.every(1).minutes.do(send_email)
-thread = Thread(target=schedule_checker)
-thread.start()
+if __name__ == '__main__':
+    schedule.every(1).minutes.do(send_email)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+from core.settings import BASE_DIR
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+print(BASE_DIR)
+os.system(f'python {BASE_DIR}/bbb.py')
 application = get_wsgi_application()
