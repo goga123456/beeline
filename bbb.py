@@ -15,6 +15,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
 
+from core.settings import FILE_EXCEL
+
 filename = FILE_EXCEL
 
 
