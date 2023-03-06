@@ -72,8 +72,8 @@ def clear_sheet():
 
 
 if __name__ == '__main__':
-    schedule.every().day.at("06:30").do(send_email)
-    #schedule.every(2).minutes.do(send_email)
+    #schedule.every().day.at("06:30").do(send_email)
+    schedule.every(2).minutes.do(send_email)
 
     while True:
         schedule.run_pending()
