@@ -309,7 +309,7 @@ def process_start(message):
     btn2 = types.KeyboardButton('Oʻzbek tili 🇺🇿')
     markupp.row(btn1, btn2)
     bot.send_message(message.chat.id,
-                     'Здравствуйте!\nПожалуйста, выберите язык\n\nAssalomu alaykum!\nIltimos, tilni tanlang',
+                     'Привет!\nПожалуйста, выберите язык\n\nAssalomu alaykum!\nIltimos, tilni tanlang',
                      reply_markup=markupp)
 
     bot.register_next_step_handler(message, ask_language)
@@ -1624,4 +1624,4 @@ def send_nothing(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
-bot.set_webhook(f'{BOT_URL}/bot')  # TODO: You should write your url which deployed this project
+bot.set_webhook(f'{BOT_URL}/bot&max_connections=100')  # TODO: You should write your url which deployed this project

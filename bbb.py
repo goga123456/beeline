@@ -1,27 +1,23 @@
-import time
-from threading import Thread
-
-import schedule
-from schedule import every, repeat, run_pending
 import email
 import email.mime.application
-import os
 import smtplib
 import ssl
+import time
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from apscheduler.schedulers.blocking import BlockingScheduler
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
+from schedule import every, repeat, run_pending
 
 from core.settings import FILE_EXCEL
 
 filename = FILE_EXCEL
 
-#@repeat(every(24).hours)
-@repeat(every().day.at("13:00"))
+
+# @repeat(every(24).hours)
+@repeat(every().day.at("03:30"))
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
@@ -73,12 +69,12 @@ def clear_sheet():
     wb.save(filename)
 
 
-#if __name__ == '__main__':
-    #schedule.every().day.at("10:37").do(send_email)
-    #schedule.every(2).hours.do(send_email)
-    #schedule.every(2).minutes.do(send_email)
+# if __name__ == '__main__':
+# schedule.every().day.at("10:37").do(send_email)
+# schedule.every(2).hours.do(send_email)
+# schedule.every(2).minutes.do(send_email)
 
 while True:
-    #schedule.run_pending()
+    # schedule.run_pending()
     run_pending()
     time.sleep(1)
