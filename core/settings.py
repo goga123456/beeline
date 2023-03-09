@@ -128,6 +128,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", '5875923517:AAFc0N6qapOuEtAhc1obVU3Y5qQ6r5wQvT8')
-BOT_URL = os.environ.get("BOT_URL", 'https://d67f-84-54-66-73.eu.ngrok.io')
+BOT_TOKEN = os.environ.get("BOT_TOKEN", '5875923517:AAHWlyb4lRILx3NtDjCYhAzY55-blrINuo8')
+BOT_URL = os.environ.get("BOT_URL", 'https://7e20-84-54-90-190.eu.ngrok.io')
 FILE_EXCEL = f'{os.path.dirname(__file__)}/../example.xlsx'

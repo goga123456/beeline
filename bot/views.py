@@ -17,15 +17,15 @@ import os
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
+state_storage = StateMemoryStorage()
 
-bot = telebot.TeleBot(BOT_TOKEN, skip_pending=True)
-
-bot.set_webhook(url=f'{BOT_URL}/bot', drop_pending_updates=True, max_connections=100)
+bot = telebot.TeleBot(BOT_TOKEN)
 
 
 class BotAPIView(View):
     def post(self, request):
         json_string = request.body.decode('UTF-8')
+        print(123)
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
         return JsonResponse({'code': 200})
@@ -1625,4 +1625,4 @@ def send_nothing(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
-# TODO: You should write your url which deployed this project
+bot.set_webhook(f'{BOT_URL}/bot')  # TODO: You should write your url which deployed this project
