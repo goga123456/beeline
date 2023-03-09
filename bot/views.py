@@ -17,11 +17,10 @@ import os
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
-state_storage = StateMemoryStorage()
 
-bot = telebot.TeleBot(BOT_TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN, skip_pending=True)
 
-bot.set_webhook(url=f'{BOT_URL}/bot')
+bot.set_webhook(url=f'{BOT_URL}/bot', drop_pending_updates=True, max_connections=100)
 
 
 class BotAPIView(View):
