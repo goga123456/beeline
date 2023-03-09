@@ -21,7 +21,7 @@ state_storage = StateMemoryStorage()
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-bot.set_webhook(url=f'{BOT_URL}/bot', drop_pending_updates=True, max_connections=100)
+bot.set_webhook(url=f'{BOT_URL}/bot', drop_pending_updates=True, max_connections=1)
 
 
 class BotAPIView(View):
