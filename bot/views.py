@@ -13,6 +13,7 @@ from telebot.storage import StateMemoryStorage
 
 from core.settings import BOT_TOKEN, BOT_URL, FILE_EXCEL
 import os
+
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
@@ -20,7 +21,7 @@ state_storage = StateMemoryStorage()
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-bot.set_webhook(url=f'{BOT_URL}/bot&max_connections=100',drop_pending_updates=True)
+bot.set_webhook(url=f'{BOT_URL}/bot', drop_pending_updates=True, max_connections=100)
 
 
 class BotAPIView(View):
@@ -36,7 +37,6 @@ current_shown_dates = {}
 filename = FILE_EXCEL
 
 os.system(f"chmod +x {filename}")
-
 
 lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные данные', 'Oʻzbek tili 🇺🇿': 'Notoʻgʻri maʻlumotlar'},
              'ask_name': {'Русский 🇷🇺': 'Напиши своё имя', 'Oʻzbek tili 🇺🇿': 'Ismingizni yozing'},
