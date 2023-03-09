@@ -309,7 +309,7 @@ def process_start(message):
     btn2 = types.KeyboardButton('Oʻzbek tili 🇺🇿')
     markupp.row(btn1, btn2)
     bot.send_message(message.chat.id,
-                     'Здравствуйте!\nПожалуйста, выберите язык\n\nAssalomu alaykum!\nIltimos, tilni tanlang',
+                     'Привет!\nПожалуйста, выберите язык\n\nAssalomu alaykum!\nIltimos, tilni tanlang',
                      reply_markup=markupp)
 
     bot.register_next_step_handler(message, ask_language)
