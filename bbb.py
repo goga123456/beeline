@@ -16,13 +16,12 @@ from core.settings import FILE_EXCEL
 filename = FILE_EXCEL
 
 
-# @repeat(every(24).hours)
 @repeat(every().day.at("03:30"))
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
     mypass = "6bUc5jT7is5Yvz4pYHLf"
-    toaddr = "bukanov1234@mail.ru"
+    toaddr = "rezume_BOT@beeline.uz"
     msg['From'] = fromaddr
     msg['To'] = toaddr
     msg['Subject'] = "Отправитель: Telegram bot"
