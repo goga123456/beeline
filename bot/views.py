@@ -1597,12 +1597,10 @@ def edu(call):
             elif user.month == '1 1' and user.day == '31':
                 bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
             else:
-                bot.send_message(message.chat.id, f'{user.day}.{wihout_spaces}.{user.year}', reply_markup=markup)
-                
-                
+                bot.send_message(message.chat.id, f'{user.day}.{wihout_spaces}.{user.year}', reply_markup=markup)            
                 now = datetime.now()
                 response_date = now.strftime("%d.%m.%Y %H:%M:%S")
-                birthday = day + "." + str(month).replace(" ", "") + "." + year
+                birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
 
 
