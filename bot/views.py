@@ -1608,7 +1608,7 @@ def edu(call):
                     wb = load_workbook(filename)
                     ws = wb['Лист1']
                     ws.append([response_date, user.surname, user.name, user.number, birthday])
-                    ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                    #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                     wb.save(filename)
                     wb.close()
                     less_18(message)
@@ -1619,9 +1619,8 @@ def edu(call):
                             wb = load_workbook(filename)
                             ws = wb['Лист1']
                             ws.append([response_date, user.surname, user.name, user.number, birthday])
-                            ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                            #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                             wb.save(filename)
-                            print("saved 3")
                             wb.close()
                             less_18(message)   
 
@@ -1631,9 +1630,8 @@ def edu(call):
                         wb = load_workbook(filename)
                         ws = wb['Лист1']
                         ws.append([response_date, user.surname, user.name, user.number, birthday])
-                        ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                        #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                         wb.save(filename)
-                        print("saved 3")
                         wb.close()
                         less_18(message)    
 
