@@ -1669,7 +1669,7 @@ def send_nothing(message):
     bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
 
 
-def less_18(message)
+def less_18(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
 
