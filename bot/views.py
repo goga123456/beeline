@@ -146,11 +146,11 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
                                      'Oʻzbek tili 🇺🇿': 'Ha, men Beeline da ishlashni xohlayman!'},
              'ne_interesuyet': {'Русский 🇷🇺': 'Не интересует', 'Oʻzbek tili 🇺🇿': 'Qiziqtirmaydi'},
              'resume_text_full': {
-                 'Русский 🇷🇺': 'Давай ещё раз уточним, что тебе предстоит пройти:\n\n1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nПродолжаем? \nЖми «Да, я хочу в Билайн!»',
-                 'Oʻzbek tili 🇺🇿': 'Keling, tanlov haqida sizga batafsil maʻlumotlar berib oʻtaman:\n\n1. Siz “Beeline” aloqa markazi operatori lavozimiga ko‘rib chiqilasiz\n\n2. Bizga ishga kirishdan oldin siz 3ta bosqichdan o‘tishingiz kerak bo‘ladi: \n- telefon orqali suhbat\n- ofisimizda bir nechta testlar (murakkab narsa yo‘q, aksincha qiziqarli 🙂)\n- 2-3ta xushchaqchaq odamlar bilan ajoyib suhbat\n\n3. Agar siz barcha bosqichlardan muvaffaqiyatli o‘tsangiz, biz sizni o‘quv jarayoniga qabul qilamiz. \nO‘quv jarayoni 15-17 kun davom etadi. Siz kunduzgi yoki kechki guruhni tanlashingiz mumkin.\nO‘quv jarayonini to‘liq o‘qib bo‘lib attestatsiyadan o‘tsangiz - sizni shtatga qabul qilamiz! 🎉😁\n\nIsh haqi, ish jadvali va jamoa - bularning barchasi haqida sizga aytib beramiz va hatto ko‘rsatamiz 😎\n\nDavom ettiramizmi? \nUnda "Ha, men Beeline da ishlashni xohlayman" tugmasini bosing.'},
+                 'Русский 🇷🇺': 'Давай ещё раз уточним, что тебе предстоит пройти:\n\n1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nЕсли ты умеешь общаться как минимум на 2 языках (узбекский и русский) и тебе уже 18 лет, жми «Да, я хочу в Билайн!»',
+                 'Oʻzbek tili 🇺🇿': 'Keling, tanlov haqida sizga batafsil maʻlumotlar berib oʻtaman:\n\n1. Siz “Beeline” aloqa markazi operatori lavozimiga ko‘rib chiqilasiz\n\n2. Bizga ishga kirishdan oldin siz 3ta bosqichdan o‘tishingiz kerak bo‘ladi: \n- telefon orqali suhbat\n- ofisimizda bir nechta testlar (murakkab narsa yo‘q, aksincha qiziqarli 🙂)\n- 2-3ta xushchaqchaq odamlar bilan ajoyib suhbat\n\n3. Agar siz barcha bosqichlardan muvaffaqiyatli o‘tsangiz, biz sizni o‘quv jarayoniga qabul qilamiz. \nO‘quv jarayoni 15-17 kun davom etadi. Siz kunduzgi yoki kechki guruhni tanlashingiz mumkin.\nO‘quv jarayonini to‘liq o‘qib bo‘lib attestatsiyadan o‘tsangiz - sizni shtatga qabul qilamiz! 🎉😁\n\nIsh haqi, ish jadvali va jamoa - bularning barchasi haqida sizga aytib beramiz va hatto ko‘rsatamiz 😎\n\nAgar siz kamida 2 tilda (o‘zbek va rus) muloqot qila olsangiz va 18 yoshda bo‘lsangiz, unda "Ha, men Beeline da ishlashni xohlayman" tugmasini bosing.'},
              'resume_text': {
-                 'Русский 🇷🇺': '1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nПродолжаем? \nЖми «Да, я хочу в Билайн!»',
-                 'Oʻzbek tili 🇺🇿': '1. Siz “Beeline” aloqa markazi operatori lavozimiga ko‘rib chiqilasiz\n\n2. Bizga ishga kirishdan oldin siz 3ta bosqichdan o‘tishingiz kerak bo‘ladi: \n- telefon orqali suhbat\n- ofisimizda bir nechta testlar (murakkab narsa yo‘q, aksincha qiziqarli 🙂)\n- 2-3ta xushchaqchaq odamlar bilan ajoyib suhbat\n\n3. Agar siz barcha bosqichlardan muvaffaqiyatli o‘tsangiz, biz sizni o‘quv jarayoniga qabul qilamiz. \nO‘quv jarayoni 15-17 kun davom etadi. Siz kunduzgi yoki kechki guruhni tanlashingiz mumkin.\nO‘quv jarayonini to‘liq o‘qib bo‘lib attestatsiyadan o‘tsangiz - sizni shtatga qabul qilamiz! 🎉😁\n\nIsh haqi, ish jadvali va jamoa - bularning barchasi haqida sizga aytib beramiz va hatto ko‘rsatamiz 😎\n\nDavom ettiramizmi? \nUnda "Ha, men Beeline da ishlashni xohlayman" tugmasini bosing.'},
+                 'Русский 🇷🇺': '1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nЕсли ты умеешь общаться как минимум на 2 языках (узбекский и русский) и тебе уже 18 лет, жми «Да, я хочу в Билайн!»',
+                 'Oʻzbek tili 🇺🇿': '1. Siz “Beeline” aloqa markazi operatori lavozimiga ko‘rib chiqilasiz\n\n2. Bizga ishga kirishdan oldin siz 3ta bosqichdan o‘tishingiz kerak bo‘ladi: \n- telefon orqali suhbat\n- ofisimizda bir nechta testlar (murakkab narsa yo‘q, aksincha qiziqarli 🙂)\n- 2-3ta xushchaqchaq odamlar bilan ajoyib suhbat\n\n3. Agar siz barcha bosqichlardan muvaffaqiyatli o‘tsangiz, biz sizni o‘quv jarayoniga qabul qilamiz. \nO‘quv jarayoni 15-17 kun davom etadi. Siz kunduzgi yoki kechki guruhni tanlashingiz mumkin.\nO‘quv jarayonini to‘liq o‘qib bo‘lib attestatsiyadan o‘tsangiz - sizni shtatga qabul qilamiz! 🎉😁\n\nIsh haqi, ish jadvali va jamoa - bularning barchasi haqida sizga aytib beramiz va hatto ko‘rsatamiz 😎\n\nAgar siz kamida 2 tilda (o‘zbek va rus) muloqot qila olsangiz va 18 yoshda bo‘lsangiz, unda "Ha, men Beeline da ishlashni xohlayman" tugmasini bosing.'},
              'resume_text_start': {'Русский 🇷🇺': 'Давай ещё раз уточним, что тебе предстоит пройти:',
                                    'Oʻzbek tili 🇺🇿': 'Keling, tanlov haqida sizga batafsil maʻlumotlar berib oʻtaman:'},
              'resume_question': {
@@ -189,6 +189,10 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
              'data_not_exist': {'Русский 🇷🇺': 'Такой даты не существует', 'Oʻzbek tili 🇺🇿': 'Bunday sana yoʻq'},
              'rejection': {'Русский 🇷🇺': 'Ты отказался от составления резюме',
                            'Oʻzbek tili 🇺🇿': 'Siz anketa toʻldirishdan voz kechdingiz'}
+
+             'less_than_18': {'Русский 🇷🇺': 'Спасибо за прохождение опроса!!! Но, к сожалению, твоя анкета временно не может быть рассмотрена, так как тебе ещё нет 18 лет. После достижения данного возраста будем рады если ты повторно откликнешься на нашу вакансию 😊',
+                           'Oʻzbek tili 🇺🇿': 'So‘rovnomadan o‘tganingiz uchun tashakkur!!! Afsuski, sizning anketangizni ko‘rib chiqilishining vaqtinchalik imkoni yo‘q, chunki siz hali 18 yoshga to‘lmagansiz. Lekin shu yoshga yetganingizdan so‘ng anketani qayta to‘ldirsangiz, xursand bo‘lamiz! 😊'}
+
              }
 
 
@@ -830,7 +834,7 @@ def ask_work_experience(message):
         msg = bot.send_message(message.chat.id, lang_dict['thank_you'][user.lang])
 
         now = datetime.now()
-        response_date = now.strftime("%d.%m.%Y")
+        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
 
         birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
@@ -1146,7 +1150,7 @@ def edu(call):
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
             now = datetime.now()
-            response_date = now.strftime("%d.%m.%Y")
+            response_date = now.strftime("%d.%m.%Y %H:%M:%S")
 
             birthday = user.day + "." + str(user.month).replace(" ", "") + "." + user.year
 
@@ -1594,6 +1598,53 @@ def edu(call):
                 bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
             else:
                 bot.send_message(message.chat.id, f'{user.day}.{wihout_spaces}.{user.year}', reply_markup=markup)
+                
+                
+                now = datetime.now()
+                response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+                birthday = day + "." + str(month).replace(" ", "") + "." + year
+
+
+
+                if(now.year - int(user.year)<18):
+                    wb = load_workbook(filename)
+                    ws = wb['Лист1']
+                    ws.append([response_date, user.surname, user.name, user.number, user.birthday])
+                    ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                    wb.save(filename)
+                    print("saved 3")
+                    wb.close()
+                    less_18(message)
+
+                if(now.year - int(user.year)==18):
+                    if(user.month == '0 4'):
+                        if(int(day)>17):
+                            wb = load_workbook(filename)
+                            ws = wb['Лист1']
+                            ws.append([response_date, user.surname, user.name, user.number, user.birthday])
+                            ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                            wb.save(filename)
+                            print("saved 3")
+                            wb.close()
+                            less_18(message)   
+
+
+                if(now.year - int(user.year)==18):
+                    if(user.month == '0 5' or user.month == '0 6' or user.month == '0 7' or user.month == '0 8' or user.month == '0 9' or user.month == '1 0' or user.month == '1 1' or user.month == '1 2'):
+                        wb = load_workbook(filename)
+                        ws = wb['Лист1']
+                        ws.append([response_date, user.surname, user.name, user.number, user.birthday])
+                        ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                        wb.save(filename)
+                        print("saved 3")
+                        wb.close()
+                        less_18(message)    
+
+
+
+
+
+
                 bot.send_message(message.chat.id, '5⃣')
                 bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                 ask_town(message)
@@ -1606,7 +1657,6 @@ def edu(call):
 
 
 def send_nothing(message):
-    # try:
     chat_id = message.chat.id
     user = user_dict[chat_id]
 
@@ -1618,8 +1668,19 @@ def send_nothing(message):
 
     bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
 
-    # except Exception as e:
-    # bot.reply_to(message, "ERROR")
+
+def less_18(message)
+    chat_id = message.chat.id
+    user = user_dict[chat_id]
+
+    bot.send_message(message.chat.id, lang_dict['less_than_18'][user.lang])
+
+    markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    btn = types.KeyboardButton('/start')
+    markup_start.row(btn)
+
+    bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
+
 
 
 bot.enable_save_next_step_handlers(delay=2)
