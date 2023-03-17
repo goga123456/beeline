@@ -1633,16 +1633,21 @@ def edu(call):
                         #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                         wb.save(filename)
                         wb.close()
-                        less_18(message)    
+                        less_18(message) 
+                  
+                        
+                else:
+                    bot.send_message(message.chat.id, '5⃣')
+                    bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+                    ask_town(message)
+                    
 
 
 
 
 
 
-                bot.send_message(message.chat.id, '5⃣')
-                bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-                ask_town(message)
+                
 
 
 
