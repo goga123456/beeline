@@ -188,7 +188,7 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
              'data_ne_vibrana': {'Русский 🇷🇺': 'Ты не выбрал дату', 'Oʻzbek tili 🇺🇿': 'Siz sanani tanlamadingiz'},
              'data_not_exist': {'Русский 🇷🇺': 'Такой даты не существует', 'Oʻzbek tili 🇺🇿': 'Bunday sana yoʻq'},
              'rejection': {'Русский 🇷🇺': 'Ты отказался от составления резюме',
-                           'Oʻzbek tili 🇺🇿': 'Siz anketa toʻldirishdan voz kechdingiz'}
+                           'Oʻzbek tili 🇺🇿': 'Siz anketa toʻldirishdan voz kechdingiz'},
 
              'less_than_18': {'Русский 🇷🇺': 'Спасибо за прохождение опроса!!! Но, к сожалению, твоя анкета временно не может быть рассмотрена, так как тебе ещё нет 18 лет. После достижения данного возраста будем рады если ты повторно откликнешься на нашу вакансию 😊',
                            'Oʻzbek tili 🇺🇿': 'So‘rovnomadan o‘tganingiz uchun tashakkur!!! Afsuski, sizning anketangizni ko‘rib chiqilishining vaqtinchalik imkoni yo‘q, chunki siz hali 18 yoshga to‘lmagansiz. Lekin shu yoshga yetganingizdan so‘ng anketani qayta to‘ldirsangiz, xursand bo‘lamiz! 😊'}
