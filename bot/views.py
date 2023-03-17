@@ -1616,7 +1616,7 @@ def edu(call):
 
                 elif(now.year - int(user.year)==18):
                     if(user.month == '0 4'):
-                        if(int(user.day)>17):
+                        if(int(user.day)>=17):
                             wb = load_workbook(filename)
                             ws = wb['Лист1']
                             ws.append([response_date, user.surname, user.name, user.number, birthday])
