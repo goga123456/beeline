@@ -1613,6 +1613,17 @@ def edu(call):
                     wb.close()
                     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                     less_18(message)
+                    
+                elif(now.year - int(user.year)==18):
+                    if(user.month == '0 5' or user.month == '0 6' or user.month == '0 7' or user.month == '0 8' or user.month == '0 9' or user.month == '1 0' or user.month == '1 1' or user.month == '1 2'):
+                        wb = load_workbook(filename)
+                        ws = wb['Лист1']
+                        ws.append([response_date, user.surname, user.name, user.number, birthday])
+                        #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
+                        wb.save(filename)
+                        wb.close()
+                        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+                        less_18(message)     
 
                 elif(now.year - int(user.year)==18):
                     if(user.month == '0 4'):
@@ -1626,16 +1637,7 @@ def edu(call):
                             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                             less_18(message)   
 
-                elif(now.year - int(user.year)==18):
-                    if(user.month == '0 5' or user.month == '0 6' or user.month == '0 7' or user.month == '0 8' or user.month == '0 9' or user.month == '1 0' or user.month == '1 1' or user.month == '1 2'):
-                        wb = load_workbook(filename)
-                        ws = wb['Лист1']
-                        ws.append([response_date, user.surname, user.name, user.number, birthday])
-                        #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
-                        wb.save(filename)
-                        wb.close()
-                        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-                        less_18(message) 
+                
                                          
                 else:
                     bot.send_message(message.chat.id, '5⃣')
