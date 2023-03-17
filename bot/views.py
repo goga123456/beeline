@@ -1623,7 +1623,15 @@ def edu(call):
                         wb.save(filename)
                         wb.close()
                         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-                        less_18(message)     
+                        less_18(message)
+
+                elif(now.year - int(user.year)==18):
+                    if(user.month == '0 1' or user.month == '0 2' or user.month == '0 3' or user.month == '0 4'):
+                        bot.send_message(message.chat.id, '5⃣')
+                        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+                        ask_town(message)
+                    
+     
                                          
                 else:
                     bot.send_message(message.chat.id, '5⃣')
