@@ -191,7 +191,7 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
                            'Oʻzbek tili 🇺🇿': 'Siz anketa toʻldirishdan voz kechdingiz'},
 
              'less_than_18': {'Русский 🇷🇺': 'Спасибо тебе за ответы на вопросы!\nЕсли твоя кандидатура подойдёт после рассмотрения, то мы тебе перезвоним.',
-                           'Oʻzbek tili 🇺🇿': 'Savollarga javob berganingiz uchun tashakkur!\nAgar sizning nomzodingiz mos kelsa, biz sizga qo'ng'iroq qilamiz.'}
+                           'Oʻzbek tili 🇺🇿': 'Savollarga javob berganingiz uchun tashakkur!\nAgar sizning nomzodingiz mos kelsa, biz sizga qoʻngʻiroq qilamiz.'}
 
              }
 
