@@ -13,6 +13,7 @@ from telebot.storage import StateMemoryStorage
 
 from core.settings import BOT_TOKEN, BOT_URL, FILE_EXCEL
 import os
+import re
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
@@ -191,7 +192,11 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
                            'Oʻzbek tili 🇺🇿': 'Siz anketa toʻldirishdan voz kechdingiz'},
 
              'less_than_18': {'Русский 🇷🇺': 'Спасибо тебе за ответы на вопросы!\nЕсли твоя кандидатура подойдёт после рассмотрения, то мы тебе перезвоним.',
-                           'Oʻzbek tili 🇺🇿': 'Savollarga javob berganingiz uchun tashakkur!\nAgar sizning nomzodingiz mos kelsa, biz sizga qoʻngʻiroq qilamiz.'}
+                           'Oʻzbek tili 🇺🇿': 'Savollarga javob berganingiz uchun tashakkur!\nAgar sizning nomzodingiz mos kelsa, biz sizga qoʻngʻiroq qilamiz.'},
+             'kirill_name': {'Русский 🇷🇺': 'Введи имя на кириллице',
+                           'Oʻzbek tili 🇺🇿': 'Ismni kirill alifbosida kiriting'},
+             'kirill_surname': {'Русский 🇷🇺': 'Введи фамилию на кириллице',
+                           'Oʻzbek tili 🇺🇿': 'Familiyangizni kirill alifbosida kiriting'}
 
              }
 
@@ -515,6 +520,17 @@ def ask_name(message):
             msg = bot.reply_to(message, lang_dict['wrong_name'][user.lang])
             bot.register_next_step_handler(msg, ask_name)
             return
+        
+        x = re.findall("[a-zA-Z]", name)
+        
+        if x:
+            msg = bot.reply_to(message, lang_dict['kirill_name'][user.lang])
+            bot.register_next_step_handler(msg, ask_name)
+            return
+            
+        
+        
+        
         user.name = name
 
         bot.send_message(message.chat.id, '3⃣')
@@ -576,6 +592,14 @@ def ask_surname(message):
             msg = bot.reply_to(message, lang_dict['wrong_surname'][user.lang])
             bot.register_next_step_handler(msg, ask_surname)
             return
+        
+        x = re.findall("[a-zA-Z]", name)
+        
+        if x:
+            msg = bot.reply_to(message, lang_dict['kirill_surname'][user.lang])
+            bot.register_next_step_handler(msg, ask_surname)
+            return
+        
         user.surname = surname
         bot.send_message(message.chat.id, '4⃣', reply_markup=markup)
         between_name_and_birthday(message)
