@@ -593,7 +593,7 @@ def ask_surname(message):
             bot.register_next_step_handler(msg, ask_surname)
             return
         
-        x = re.findall("[a-zA-Z]", name)
+        x = re.findall("[a-zA-Z]", surname)
         
         if x:
             msg = bot.reply_to(message, lang_dict['kirill_surname'][user.lang])
