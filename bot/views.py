@@ -516,7 +516,7 @@ def ask_name(message):
             between_about_resume_second_and_number(message)
             return
 
-        if not all(x.isascii() or x.isspace() or x.isalnum() for x in name):
+        if not all(x.isspace() or x.isalpha() for x in name):
             msg = bot.reply_to(message, lang_dict['wrong_name'][user.lang])
             bot.register_next_step_handler(msg, ask_name)
             return
@@ -588,7 +588,7 @@ def ask_surname(message):
             between_resume_and_name(message)
             return
 
-        if not all(x.isascii() or x.isspace() or x.isalnum() for x in surname):
+        if not all(x.isspace() or x.isalpha() for x in surname):
             msg = bot.reply_to(message, lang_dict['wrong_surname'][user.lang])
             bot.register_next_step_handler(msg, ask_surname)
             return
