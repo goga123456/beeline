@@ -219,6 +219,8 @@ class User:
         self.en_language = None
         self.work = None
         self.work_experience = 'Null'
+        
+        
 
 
 markupp = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -1437,6 +1439,12 @@ def edu(call):
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn = types.KeyboardButton(lang_dict['start'][user.lang])
             markup.row(btn)
+            
+            wb = load_workbook(filename)
+            ws = wb['Лист2']
+            ws['A2'].value = ws['A2'].value+1
+            wb.save(filename)
+            wb.close()
 
             ask_about_resume_second(message)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1444,7 +1452,13 @@ def edu(call):
         if call.data == 'Отказаться':
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
-
+            
+            wb = load_workbook(filename)
+            ws = wb['Лист2']
+            ws['B2'].value = ws['B2'].value+1
+            wb.save(filename)
+            wb.close()
+            
             send_nothing(message)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
@@ -1456,13 +1470,27 @@ def edu(call):
             btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
             btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
             markup__v1.row(btn_1, btn_2)
-
+            
+            wb = load_workbook(filename)
+            ws = wb['Лист2']
+            ws['C2'].value = ws['C2'].value+1
+            wb.save(filename)
+            wb.close()
+            
+            
             between_about_resume_second_and_number(message)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
         if call.data == 'Не_интересует':
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
+            
+            wb = load_workbook(filename)
+            ws = wb['Лист2']
+            ws['D2'].value = ws['D2'].value+1
+            wb.save(filename)
+            wb.close()
+            
             send_nothing(message)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
