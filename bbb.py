@@ -16,12 +16,13 @@ from core.settings import FILE_EXCEL
 filename = FILE_EXCEL
 
 
-@repeat(every().day.at("03:30"))
+@repeat(every().day.at("12:03"))
 def send_email():
     msg = MIMEMultipart("alternative")
     fromaddr = "bukanov1234@mail.ru"
     mypass = "6bUc5jT7is5Yvz4pYHLf"
-    toaddr = "rezume_BOT@beeline.uz"
+    toaddr = "bukanov1234@mail.ru"
+    #rezume_BOT@beeline.uz
     msg['From'] = fromaddr
     msg['To'] = toaddr
     msg['Subject'] = "Отправитель: Telegram bot"
@@ -65,7 +66,15 @@ def clear_sheet():
     ws = wb['Лист1']
     nb_row = ws.max_row
     ws.delete_rows(2, nb_row)
+    ws = wb['Лист2']
+    ws['A2']=0
+    ws['B2']=0
+    ws['C2']=0
+    ws['D2']=0
     wb.save(filename)
+    
+    
+    
 
 
 # if __name__ == '__main__':
