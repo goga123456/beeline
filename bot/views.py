@@ -201,7 +201,9 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
                            'Oʻzbek tili 🇺🇿': 'Afsus :(\nIltimos, rad etishingiz sabablarini biz bilan baham koʻring.\nIshga qabul qilish jarayonlarimizni yaxshilashda bizga katta yordam berasiz'},
              
              'time_for_call': {'Русский 🇷🇺': 'Подскажи нам, в какие дни недели и в какое время тебе будет комфортно пройти телефонное интервью',
-                           'Oʻzbek tili 🇺🇿': 'Haftaning qaysi kunlari va qaysi vaqtda telefon orqali suhbat oʻtkazish siz uchun qulay boʻlishini ayting'}  
+                           'Oʻzbek tili 🇺🇿': 'Haftaning qaysi kunlari va qaysi vaqtda telefon orqali suhbat oʻtkazish siz uchun qulay boʻlishini ayting'},
+             'thanks_for_comment': {'Русский 🇷🇺': 'Спасибо вам за ваши комментарии!\nВаша обратная связь очень ценна для будущих соискателей 🙏',
+                           'Oʻzbek tili 🇺🇿': 'Qo’shimcha ma’lumotlaringiz uchun minnatdormiz! Bir to’g’rimizdagi fikrlaringiz uchun rahmat va bu fikrlaringiz sizdan keyingi ishlovchilar uchun juda muhim ma’lumot🙏'}  
              
              
 
@@ -1817,7 +1819,7 @@ def say_cause_of_rejecton(message):
         markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn = types.KeyboardButton('/start')
         markup_start.row(btn)
-
+        bot.send_message(message.chat.id, lang_dict['thanks_for_comment'][user.lang])
         bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
 
 
