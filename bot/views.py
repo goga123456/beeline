@@ -141,6 +141,7 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
              'Yakkosoroy': {'Русский 🇷🇺': 'Яккасарай', 'Oʻzbek tili 🇺🇿': 'Yakkasoroy'},
              'Yashnobod': {'Русский 🇷🇺': 'Яшнабад', 'Oʻzbek tili 🇺🇿': 'Yashnobod'},
              'Uchtepa': {'Русский 🇷🇺': 'Учтепа', 'Oʻzbek tili 🇺🇿': 'Uchtepa'},
+             'Yengihayot': {'Русский 🇷🇺': 'Янгихаёт', 'Oʻzbek tili 🇺🇿': 'Yangihayot'},             
              'prodoljit': {'Русский 🇷🇺': 'Продолжить', 'Oʻzbek tili 🇺🇿': 'Davom etish'},
              'otkazatsya': {'Русский 🇷🇺': 'Отказаться', 'Oʻzbek tili 🇺🇿': 'Rad etish'},
              'want_work_in_bilain': {'Русский 🇷🇺': 'Да, я хочу в Билайн!',
@@ -678,8 +679,9 @@ def choose_district(message):
         item9 = types.InlineKeyboardButton(lang_dict['Yakkosoroy'][user.lang], callback_data='Яккасарайский')
         item10 = types.InlineKeyboardButton(lang_dict['Yashnobod'][user.lang], callback_data='Яшнабадский')
         item11 = types.InlineKeyboardButton(lang_dict['Uchtepa'][user.lang], callback_data='Учтепинский')
-        item12 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='back_to_town')
-        markup_regions.add(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12)
+        item12 = types.InlineKeyboardButton(lang_dict['Yengihayot'][user.lang], callback_data='Янгихаётский')
+        item13 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='back_to_town')
+        markup_regions.add(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13)
         bot.send_message(message.chat.id, lang_dict['district'][user.lang], reply_markup=markup_regions)
     except Exception:
         msg = bot.reply_to(message, 'Неверные данные!')
@@ -1342,6 +1344,21 @@ def edu(call):
             user.district = district
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             education_1(message)
+            
+        if call.data == 'Янгихаётский':
+            chat_id = call.message.chat.id
+            user = user_dict[chat_id]
+
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            markup.row(btn)
+
+            bot.reply_to(message, lang_dict['Yengihayot'][user.lang], reply_markup=markup)
+            district = call.data
+
+            user.district = district
+            bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+            education_1(message)    
 
         if call.data == 'Бектемирский':
             chat_id = call.message.chat.id
