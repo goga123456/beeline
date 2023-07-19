@@ -324,9 +324,12 @@ markup_calendar_year.add(item1, item2, item3, item4, item5, item6, item7, item8,
 
 @bot.message_handler(commands=['start'])
 def process_start(message):
-    bot.send_message(message.chat.id,'Привет!')
-
-    bot.register_next_step_handler(message, between_language_and_about_resume)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    btn = types.KeyboardButton('Начать сначала')
+    markup.row(btn)
+    msg = bot.send_message(message.chat.id, "Привет 👋", reply_markup=markup)
+    ask_about_resume(message)
+    
     
     
 
@@ -347,21 +350,10 @@ def checker(message):
         bot.reply_to(message, "Выбери вариант кнопкой")
 
 
-@bot.message_handler(content_types=['text'])
-def between_language_and_about_resume(message):
-    user = user_dict[message.chat.id]
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton('Начать сначала')
-    markup.row(btn)
-    bot.send_message(message.chat.id, "Привет 👋", reply_markup=markup)
-    ask_about_resume(message)
-    # bot.register_next_step_handler(message, ask_about_resume)
-
 
 @bot.message_handler(content_types=['text'])
 def ask_about_resume(message):
-    chat_id = message.chat.id
-    user = user_dict[chat_id]
+    user = user_dict[message.chat.id]
 
     markup_resume = types.InlineKeyboardMarkup(row_width=2)
     item1 = types.InlineKeyboardButton('Отказаться', callback_data='Отказаться')
