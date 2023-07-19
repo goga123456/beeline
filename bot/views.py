@@ -358,7 +358,6 @@ def ask_about_resume(message):
     markup_resume = types.InlineKeyboardMarkup(row_width=2)
     item1 = types.InlineKeyboardButton('Отказаться', callback_data='Отказаться')
     item2 = types.InlineKeyboardButton('Продолжить', callback_data='Продолжить')
-
     markup_resume.add(item1, item2)
     bot.send_message(message.chat.id, "Я помогу тебе заполнить анкету для участия в отборе на вакансию оператора контакт-центра Билайн!\n\n Я задам 10 вопросов - это займёт не больше 5 минут 😉\n\nНачнём?\nЖми 👉 «Продолжить»", reply_markup=markup_resume)
 
