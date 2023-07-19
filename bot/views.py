@@ -325,7 +325,7 @@ markup_calendar_year.add(item1, item2, item3, item4, item5, item6, item7, item8,
 
 @bot.message_handler(commands=['start'])
 def process_start(message):
-    chid = user.id
+    chid = 'ID юзера'
     user = User(chid)
     user_dict[chat_id] = user
     between_language_and_about_resume(message)
