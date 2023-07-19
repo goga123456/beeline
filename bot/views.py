@@ -212,8 +212,7 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
 
 
 class User:
-    def __init__(self, chid):
-        self.chid = chid
+    def __init__(self):        
         self.name = None
         self.cause = None
         self.surname = None
@@ -365,7 +364,8 @@ def ask_about_resume(message):
 
 
 def ask_about_resume_second(message):
-
+    chat_id = message.chat.id
+    user = user_dict[chat_id]
     markup_resume_second = types.InlineKeyboardMarkup(row_width=1)
     item1 = types.InlineKeyboardButton('Да, я хочу в Билайн!', callback_data='Хочу_в_билайн')
     item2 = types.InlineKeyboardButton('Не интересует', callback_data='Не_интересует')
