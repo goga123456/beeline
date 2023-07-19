@@ -325,6 +325,9 @@ markup_calendar_year.add(item1, item2, item3, item4, item5, item6, item7, item8,
 
 @bot.message_handler(commands=['start'])
 def process_start(message):
+    chid = user.id
+    user = User(chid)
+    user_dict[chat_id] = user
     between_language_and_about_resume(message)
 
 
@@ -346,7 +349,7 @@ def checker(message):
 
 @bot.message_handler(content_types=['text'])
 def between_language_and_about_resume(message):
-    
+    user = user_dict[message.chat.id]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
