@@ -212,7 +212,8 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
 
 
 class User:
-    def __init__(self):
+    def __init__(self, chid):
+        self.chid = chid
         self.name = None
         self.cause = None
         self.surname = None
@@ -345,8 +346,7 @@ def checker(message):
 
 @bot.message_handler(content_types=['text'])
 def between_language_and_about_resume(message):
-    chat_id = message.chat.id
-    user = user_dict[message.chat.id]
+    
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
