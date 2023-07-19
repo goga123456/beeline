@@ -1465,8 +1465,6 @@ def edu(call):
             education_1(message)
 
         if call.data == 'Продолжить':
-            chat_id = call.message.chat.id
-            user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn = types.KeyboardButton('Начать сначала')
@@ -1482,9 +1480,7 @@ def edu(call):
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
         if call.data == 'Отказаться':
-            chat_id = call.message.chat.id
-            user = user_dict[chat_id]
-
+            
             wb = load_workbook(filename)
             ws = wb['Лист2']
             ws['B2'].value = ws['B2'].value+1
