@@ -212,8 +212,7 @@ lang_dict = {'wrong_data': {'Русский 🇷🇺': 'Неверные дан�
 
 
 class User:
-    def __init__(self, lang):
-        self.lang = lang
+    def __init__(self):
         self.cause = None
         self.name = None
         self.surname = None
@@ -235,10 +234,7 @@ class User:
         
 
 
-markupp = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-btn1 = types.KeyboardButton('Русский 🇷🇺')
-btn2 = types.KeyboardButton('Oʻzbek tili 🇺🇿')
-markupp.row(btn1, btn2)
+
 
 # markups for calendar
 
@@ -328,15 +324,7 @@ markup_calendar_year.add(item1, item2, item3, item4, item5, item6, item7, item8,
 
 @bot.message_handler(commands=['start'])
 def process_start(message):
-    markupp = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    btn1 = types.KeyboardButton('Русский 🇷🇺')
-    btn2 = types.KeyboardButton('Oʻzbek tili 🇺🇿')
-    markupp.row(btn1, btn2)
-    bot.send_message(message.chat.id,
-                     'Привет!\nПожалуйста, выберите язык\n\nAssalomu alaykum!\nIltimos, tilni tanlang',
-                     reply_markup=markupp)
-
-    bot.register_next_step_handler(message, ask_language)
+    between_language_and_about_resume(message)
 
 
 @bot.message_handler(content_types=['text'])
@@ -350,45 +338,18 @@ def checker(message):
     elif (message.text == 'Начать сначала'):
         process_start(message)
         return
-    elif (message.text == 'Boshidan boshlash'):
-        process_start(message)
-        return
     else:
         print("in else")
-        bot.reply_to(message, "Выбери вариант кнопкой (Tugmani bosib variantni tanlang)")
-
-
-@bot.message_handler(content_types=['text'])
-def ask_language(message):
-    try:
-        chat_id = message.chat.id
-        lang = message.text
-
-        if (lang == '/start'):
-            process_start(message)
-            return
-
-        user = User(lang)
-        user_dict[chat_id] = user
-        print(user)
-
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
-        markup.row(btn)
-        between_language_and_about_resume(message)
-    except KeyError:
-        bot.reply_to(message,
-                     "Выберите один из вариантов 'Русский' или 'Ozbek tili'\n\n 'Русский' yoki 'Ozbek tili' parametrlaridan birini tanlang ")
-        bot.register_next_step_handler(message, ask_language)
+        bot.reply_to(message, "Выбери вариант кнопкой")
 
 
 @bot.message_handler(content_types=['text'])
 def between_language_and_about_resume(message):
     user = user_dict[message.chat.id]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
-    bot.send_message(message.chat.id, lang_dict['salom'][user.lang], reply_markup=markup)
+    bot.send_message(message.chat.id, "Привет 👋", reply_markup=markup)
     ask_about_resume(message)
     # bot.register_next_step_handler(message, ask_about_resume)
 
@@ -399,11 +360,11 @@ def ask_about_resume(message):
     user = user_dict[chat_id]
 
     markup_resume = types.InlineKeyboardMarkup(row_width=2)
-    item1 = types.InlineKeyboardButton(lang_dict['otkazatsya'][user.lang], callback_data='Отказаться')
-    item2 = types.InlineKeyboardButton(lang_dict['prodoljit'][user.lang], callback_data='Продолжить')
+    item1 = types.InlineKeyboardButton('Отказаться', callback_data='Отказаться')
+    item2 = types.InlineKeyboardButton('Продолжить', callback_data='Продолжить')
 
     markup_resume.add(item1, item2)
-    bot.send_message(message.chat.id, lang_dict['resume_question'][user.lang], reply_markup=markup_resume)
+    bot.send_message(message.chat.id, "Я помогу тебе заполнить анкету для участия в отборе на вакансию оператора контакт-центра Билайн!\n\n Я задам 10 вопросов - это займёт не больше 5 минут 😉\n\nНачнём?\nЖми 👉 «Продолжить»", reply_markup=markup_resume)
 
 
 def ask_about_resume_second(message):
@@ -411,12 +372,12 @@ def ask_about_resume_second(message):
     user = user_dict[chat_id]
 
     markup_resume_second = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton(lang_dict['want_work_in_bilain'][user.lang], callback_data='Хочу_в_билайн')
-    item2 = types.InlineKeyboardButton(lang_dict['ne_interesuyet'][user.lang], callback_data='Не_интересует')
-    item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='Назад к предыдущему тексту')
+    item1 = types.InlineKeyboardButton('Да, я хочу в Билайн!', callback_data='Хочу_в_билайн')
+    item2 = types.InlineKeyboardButton('Не интересует', callback_data='Не_интересует')
+    item3 = types.InlineKeyboardButton('Назад', callback_data='Назад к предыдущему тексту')
     markup_resume_second.add(item1, item2, item3)
 
-    bot.send_message(message.chat.id, lang_dict['resume_text_full'][user.lang], reply_markup=markup_resume_second)
+    bot.send_message(message.chat.id, "Давай ещё раз уточним, что тебе предстоит пройти:\n\n1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nЕсли ты умеешь общаться как минимум на 2 языках (узбекский и русский) и тебе уже 18 лет, жми «Да, я хочу в Билайн!»", reply_markup=markup_resume_second)
 
 
 @bot.message_handler(content_types=['text'])
@@ -426,15 +387,15 @@ def between_about_resume_second_and_number(message):
     user = user_dict[chat_id]
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
 
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
     bot.send_message(message.chat.id, '1⃣')
-    msg = bot.send_message(message.chat.id, lang_dict['number'][user.lang], reply_markup=markup__v1)
+    msg = bot.send_message(message.chat.id, "Укажи контактный номер, чтобы мы могли связаться с тобой", reply_markup=markup__v1)
     bot.register_next_step_handler(msg, ask_number)
 
 
@@ -446,34 +407,33 @@ def ask_number(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
         markup__v1.row(btn_1, btn_2)
 
-        if (number == lang_dict['start'][user.lang] or number == '/start'):
+        if (number == 'Начать сначала' or number == '/start'):
             process_start(message)
             return
 
-        if (number == lang_dict['back'][user.lang]):
+        if (number == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
 
             markup_resume_second = types.InlineKeyboardMarkup(row_width=1)
-            item1 = types.InlineKeyboardButton(lang_dict['want_work_in_bilain'][user.lang],
-                                               callback_data='Хочу_в_билайн')
-            item2 = types.InlineKeyboardButton(lang_dict['ne_interesuyet'][user.lang], callback_data='Не_интересует')
-            item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='Назад к предыдущему тексту')
+            item1 = types.InlineKeyboardButton('Да, я хочу в Билайн!', callback_data='Хочу_в_билайн')
+            item2 = types.InlineKeyboardButton('Не интересует', callback_data='Не_интересует')
+            item3 = types.InlineKeyboardButton('Назад', callback_data='Назад к предыдущему тексту')
             markup_resume_second.add(item1, item2, item3)
-            bot.send_message(message.chat.id, lang_dict['resume_text_start'][user.lang], reply_markup=markup)
-            bot.send_message(message.chat.id, lang_dict['resume_text'][user.lang], reply_markup=markup_resume_second)
+            bot.send_message(message.chat.id, "Давай ещё раз уточним, что тебе предстоит пройти:", reply_markup=markup)
+            bot.send_message(message.chat.id, "1. Ты будешь рассматриваться на вакансию оператора контакт-центра Билайн\n\n2. Перед тем как устроиться на работу к нам тебе предстоит пройти 3 этапа отбора: \n- телефонное собеседование\n- тестирование в нашем офисе (там ничего сложного, даже весело 🙂)\n- прикольное собеседование с 2-3 веселыми людьми\n\n3. Если проходишь все этапы - то мы тебя зачисляем на обучение в нашем офисе. \nОбучение длится 15-17 дней. Ты можешь выбрать дневную или вечернюю форму обучения.\nЕсли проходишь обучение и сдаёшь аттестацию - ты принят в штат! 🎉😁\n\nОплата труда, график работы и команда - обо всем этом расскажем и даже покажем 😎\n\nЕсли ты умеешь общаться как минимум на 2 языках (узбекский и русский) и тебе уже 18 лет, жми «Да, я хочу в Билайн!»", reply_markup=markup_resume_second)
             return
 
         if not all(x.isascii() or x.isspace() or x.isalnum() for x in number):
-            msg = bot.reply_to(message, lang_dict['wrong_number'][user.lang])
+            msg = bot.reply_to(message, "Неверный формат номера!")
             bot.register_next_step_handler(msg, ask_number)
             return
 
@@ -483,7 +443,7 @@ def ask_number(message):
     except Exception:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_number'][user.lang])
+        msg = bot.reply_to(message, "Неверный формат номера!")
         bot.register_next_step_handler(msg, ask_number)
 
 
@@ -492,15 +452,16 @@ def between_resume_and_name(message):
     user = user_dict[chat_id]
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
 
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
+    
     bot.send_message(message.chat.id, '2⃣')
-    msg = bot.send_message(message.chat.id, lang_dict['ask_name'][user.lang], reply_markup=markup__v1)
+    msg = bot.send_message(message.chat.id, "Напиши своё имя", reply_markup=markup__v1)
     bot.register_next_step_handler(msg, ask_name)
 
 
@@ -511,34 +472,34 @@ def ask_name(message):
         name = message.text
         user = user_dict[chat_id]
 
-        markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
-        markup__v1.row(btn_1, btn_2)
-
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
-        if (name == lang_dict['start'][user.lang] or name == '/start'):
+        markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
+        markup__v1.row(btn_1, btn_2)
+
+        if (name == 'Начать сначала' or name == '/start'):
             process_start(message)
             return
 
-        if (name == lang_dict['back'][user.lang]):
+        if (name == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             between_about_resume_second_and_number(message)
             return
 
         if not all(x.isspace() or x.isalpha() for x in name):
-            msg = bot.reply_to(message, lang_dict['wrong_name'][user.lang])
+            msg = bot.reply_to(message, "Данные введены некорректно. Просим указать имя")
             bot.register_next_step_handler(msg, ask_name)
             return
         
         x = re.findall("[a-zA-Z]", name)
         
         if x:
-            msg = bot.reply_to(message, lang_dict['kirill_name'][user.lang])
+            msg = bot.reply_to(message, "Введи имя на кириллице!")
             bot.register_next_step_handler(msg, ask_name)
             return
             
@@ -548,13 +509,13 @@ def ask_name(message):
         user.name = name
 
         bot.send_message(message.chat.id, '3⃣')
-        msg = bot.send_message(message.chat.id, lang_dict['ask_surname'][user.lang], reply_markup=markup__v1)
+        msg = bot.send_message(message.chat.id, "Напиши свою фамилию", reply_markup=markup__v1)
         bot.register_next_step_handler(msg, ask_surname)
 
     except Exception as e:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, ask_name)
 
 
@@ -563,16 +524,16 @@ def between_name_and_surname(message):
     user = user_dict[chat_id]
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
 
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
 
     bot.send_message(message.chat.id, '3⃣')
-    msg = bot.send_message(message.chat.id, lang_dict['ask_surname'][user.lang])
+    msg = bot.send_message(message.chat.id, "Напиши свою фамилию")
     bot.register_next_step_handler(msg, ask_surname)
 
 
@@ -584,33 +545,33 @@ def ask_surname(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
         markup__v1.row(btn_1, btn_2)
 
-        if (surname == lang_dict['start'][user.lang] or surname == '/start'):
+        if (surname == 'Начать сначала' or surname == '/start'):
             process_start(message)
             return
 
-        if (surname == lang_dict['back'][user.lang]):
+        if (surname == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             between_resume_and_name(message)
             return
 
         if not all(x.isspace() or x.isalpha() for x in surname):
-            msg = bot.reply_to(message, lang_dict['wrong_surname'][user.lang])
+            msg = bot.reply_to(message, "Данные введены некорректно. Просим указать фамилию")
             bot.register_next_step_handler(msg, ask_surname)
             return
         
         x = re.findall("[a-zA-Z]", surname)
         
         if x:
-            msg = bot.reply_to(message, lang_dict['kirill_surname'][user.lang])
+            msg = bot.reply_to(message, "Введи фамилию на кириллице!")
             bot.register_next_step_handler(msg, ask_surname)
             return
         
@@ -621,7 +582,7 @@ def ask_surname(message):
     except Exception as e:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, ask_surname)
 
 
@@ -630,22 +591,22 @@ def between_name_and_birthday(message):
     user = user_dict[chat_id]
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
 
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
 
     markup_calendar_start = types.InlineKeyboardMarkup(row_width=3)
-    item1 = types.InlineKeyboardButton(lang_dict['day'][user.lang], callback_data='День')
-    item2 = types.InlineKeyboardButton(lang_dict['month'][user.lang], callback_data='Месяц')
-    item3 = types.InlineKeyboardButton(lang_dict['year'][user.lang], callback_data='Год')
-    item4 = types.InlineKeyboardButton(lang_dict['send'][user.lang], callback_data='Отправить')
-    item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_to_surname')
+    item1 = types.InlineKeyboardButton('День', callback_data='День')
+    item2 = types.InlineKeyboardButton('Месяц', callback_data='Месяц')
+    item3 = types.InlineKeyboardButton('Год', callback_data='Год')
+    item4 = types.InlineKeyboardButton('Отправить', callback_data='Отправить')
+    item5 = types.InlineKeyboardButton('Назад', callback_data='bck_to_surname')
     markup_calendar_start.add(item1, item2, item3, item4, item5)
-    bot.send_message(message.chat.id, lang_dict['ask_birthday'][user.lang], reply_markup=markup_calendar_start)
+    bot.send_message(message.chat.id, "Дата твоего рождения", reply_markup=markup_calendar_start)
 
 
 def ask_town(message):
@@ -653,11 +614,11 @@ def ask_town(message):
         chat_id = message.chat.id
         user = user_dict[chat_id]
         markup_town = types.InlineKeyboardMarkup(row_width=2)
-        item1 = types.InlineKeyboardButton(lang_dict['tashkent'][user.lang], callback_data='Ташкент')
-        item2 = types.InlineKeyboardButton(lang_dict['drugoi'][user.lang], callback_data='Другой город')
-        item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='back_to_birthday')
+        item1 = types.InlineKeyboardButton('Ташкент', callback_data='Ташкент')
+        item2 = types.InlineKeyboardButton('Другой город', callback_data='Другой город')
+        item3 = types.InlineKeyboardButton('Назад', callback_data='back_to_birthday')
         markup_town.add(item1, item2, item3)
-        bot.send_message(message.chat.id, lang_dict['town'][user.lang], reply_markup=markup_town)
+        bot.send_message(message.chat.id, "Откуда ты?", reply_markup=markup_town)
     except Exception:
         msg = bot.reply_to(message, 'Неверные данные!')
         bot.register_next_step_handler(msg, ask_town)
@@ -668,21 +629,21 @@ def choose_district(message):
         chat_id = message.chat.id
         user = user_dict[chat_id]
         markup_regions = types.InlineKeyboardMarkup(row_width=3)
-        item1 = types.InlineKeyboardButton(lang_dict['Olmazor'][user.lang], callback_data='Олмазарский')
-        item2 = types.InlineKeyboardButton(lang_dict['Bektemir'][user.lang], callback_data='Бектемирский')
-        item3 = types.InlineKeyboardButton(lang_dict['Mirabad'][user.lang], callback_data='Мирабадский')
-        item4 = types.InlineKeyboardButton(lang_dict['Mirzo_Ulugbek'][user.lang], callback_data='Мирзо-Улугбекский')
-        item5 = types.InlineKeyboardButton(lang_dict['Sergeli'][user.lang], callback_data='Сергелинский')
-        item6 = types.InlineKeyboardButton(lang_dict['Chilonzor'][user.lang], callback_data='Чиланзарский')
-        item7 = types.InlineKeyboardButton(lang_dict['Shayhontohur'][user.lang], callback_data='Шайхантаурский')
-        item8 = types.InlineKeyboardButton(lang_dict['Yunusobod'][user.lang], callback_data='Юнусабадский')
-        item9 = types.InlineKeyboardButton(lang_dict['Yakkosoroy'][user.lang], callback_data='Яккасарайский')
-        item10 = types.InlineKeyboardButton(lang_dict['Yashnobod'][user.lang], callback_data='Яшнабадский')
-        item11 = types.InlineKeyboardButton(lang_dict['Uchtepa'][user.lang], callback_data='Учтепинский')
-        item12 = types.InlineKeyboardButton(lang_dict['Yengihayot'][user.lang], callback_data='Янгихаётский')
-        item13 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='back_to_town')
+        item1 = types.InlineKeyboardButton('Алмазар', callback_data='Олмазарский')
+        item2 = types.InlineKeyboardButton('Бектемир', callback_data='Бектемирский')
+        item3 = types.InlineKeyboardButton('Мирабад', callback_data='Мирабадский')
+        item4 = types.InlineKeyboardButton('Мирзо-Улугбек', callback_data='Мирзо-Улугбекский')
+        item5 = types.InlineKeyboardButton('Сергели', callback_data='Сергелинский')
+        item6 = types.InlineKeyboardButton('Чиланзар', callback_data='Чиланзарский')
+        item7 = types.InlineKeyboardButton('Шайхантаур', callback_data='Шайхантаурский')
+        item8 = types.InlineKeyboardButton('Юнусабад', callback_data='Юнусабадский')
+        item9 = types.InlineKeyboardButton('Яккасарай', callback_data='Яккасарайский')
+        item10 = types.InlineKeyboardButton('Яшнабад', callback_data='Яшнабадский')
+        item11 = types.InlineKeyboardButton('Учтепа', callback_data='Учтепинский')
+        item12 = types.InlineKeyboardButton('Янгихаёт', callback_data='Янгихаётский')
+        item13 = types.InlineKeyboardButton('Назад', callback_data='back_to_town')
         markup_regions.add(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13)
-        bot.send_message(message.chat.id, lang_dict['district'][user.lang], reply_markup=markup_regions)
+        bot.send_message(message.chat.id, "Выбери район", reply_markup=markup_regions)
     except Exception:
         msg = bot.reply_to(message, 'Неверные данные!')
         bot.register_next_step_handler(msg, ask_town)
@@ -693,11 +654,11 @@ def between_ask_town_and_ask_town_and_district(message):
     user = user_dict[chat_id]
 
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
 
-    msg = bot.send_message(message.chat.id, lang_dict['town_and_districtt'][user.lang], reply_markup=markup__v1)
+    msg = bot.send_message(message.chat.id, "Напиши регион (город) и район", reply_markup=markup__v1)
     bot.register_next_step_handler(msg, ask_town_and_district)
 
 
@@ -709,25 +670,25 @@ def ask_town_and_district(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
         markup__v1.row(btn_1, btn_2)
 
-        if (town_and_district == lang_dict['back'][user.lang]):
+        if (town_and_district == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             bot.send_message(message.chat.id, '5⃣', reply_markup=markup)
             ask_town(message)
             return
-        if (town_and_district == lang_dict['start'][user.lang] or town_and_district == '/start'):
+        if (town_and_district == 'Начать сначала' or town_and_district == '/start'):
             process_start(message)
             return
         if not all(x.isascii() or x.isspace() or x.isalnum() for x in town_and_district):
-            msg = bot.reply_to(message.chat.id, lang_dict['wrong_town_and_district'][user.lang])
+            msg = bot.reply_to(message.chat.id, "Название города должно состоять из букв и может быть несколькими словами")
             bot.register_next_step_handler(msg, ask_town_and_district)
             return
 
@@ -740,7 +701,7 @@ def ask_town_and_district(message):
     except Exception:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, ask_town_and_district)
 
 
@@ -750,15 +711,15 @@ def education_1(message):
     user = user_dict[chat_id]
     print(user.town_and_district)
     markup1 = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton(lang_dict['higher'][user.lang], callback_data='Высшее')
-    item2 = types.InlineKeyboardButton(lang_dict['incomplete_higher'][user.lang], callback_data='Неполное высшее')
-    item3 = types.InlineKeyboardButton(lang_dict['secondary'][user.lang], callback_data='Среднее')
-    item4 = types.InlineKeyboardButton(lang_dict['incomplete_secondary'][user.lang], callback_data='Неполное среднее')
-    item5 = types.InlineKeyboardButton(lang_dict['secondary_special'][user.lang], callback_data='Среднее специальное')
-    item6 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='back_to_town')
+    item1 = types.InlineKeyboardButton('Высшее', callback_data='Высшее')
+    item2 = types.InlineKeyboardButton('Неполное высшее', callback_data='Неполное высшее')
+    item3 = types.InlineKeyboardButton('Среднее', callback_data='Среднее')
+    item4 = types.InlineKeyboardButton('Неполное среднее', callback_data='Неполное среднее')
+    item5 = types.InlineKeyboardButton('Среднее специальное', callback_data='Среднее специальное')
+    item6 = types.InlineKeyboardButton('Назад', callback_data='back_to_town')
     markup1.add(item1, item2, item3, item4, item5, item6)
-    bot.send_message(message.chat.id, '6⃣')
-    bot.send_message(message.chat.id, lang_dict['education'][user.lang], reply_markup=markup1)
+    bot.send_message(message.chat.id, "6⃣")
+    bot.send_message(message.chat.id, "Укажи уровень образования", reply_markup=markup1)
 
 
 @bot.message_handler(content_types=['text'])
@@ -766,14 +727,14 @@ def uzb_language(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
     markup2 = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton(lang_dict['great'][user.lang], callback_data='Отлично')
-    item2 = types.InlineKeyboardButton(lang_dict['good'][user.lang], callback_data='Хорошо')
-    item3 = types.InlineKeyboardButton(lang_dict['satisfactorily'][user.lang], callback_data='Удовлетворительно')
-    item4 = types.InlineKeyboardButton(lang_dict['ne_vladeyu'][user.lang], callback_data='Не владею узбекским языком')
-    item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_ru')
+    item1 = types.InlineKeyboardButton('Владею как родным языком :)', callback_data='Отлично')
+    item2 = types.InlineKeyboardButton('Могу вести обычные беседы свободно и уверенно', callback_data='Хорошо')
+    item3 = types.InlineKeyboardButton('Понимаю язык, но не могу свободно общаться', callback_data='Удовлетворительно')
+    item4 = types.InlineKeyboardButton('Не владею языком', callback_data='Не владею узбекским языком')
+    item5 = types.InlineKeyboardButton('Назад', callback_data='bck_ru')
     markup2.add(item1, item2, item3, item4, item5)
-    bot.send_message(message.chat.id, '8⃣')
-    bot.send_message(message.chat.id, lang_dict['uzb_language'][user.lang], reply_markup=markup2)
+    bot.send_message(message.chat.id, "8⃣")
+    bot.send_message(message.chat.id, "Уровень владения Узбекским языком", reply_markup=markup2)
 
 
 @bot.message_handler(content_types=['text'])
@@ -781,14 +742,14 @@ def rus_language(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
     markup3 = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton(lang_dict['great'][user.lang], callback_data='Отлично знаю')
-    item2 = types.InlineKeyboardButton(lang_dict['good'][user.lang], callback_data='Хорошо знаю')
-    item3 = types.InlineKeyboardButton(lang_dict['satisfactorily'][user.lang], callback_data='Удовлетворительно знаю')
-    item4 = types.InlineKeyboardButton(lang_dict['ne_vladeyu'][user.lang], callback_data='Не владею русским языком')
-    item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_edu')
+    item1 = types.InlineKeyboardButton('Владею как родным языком :)', callback_data='Отлично знаю')
+    item2 = types.InlineKeyboardButton('Могу вести обычные беседы свободно и уверенно', callback_data='Хорошо знаю')
+    item3 = types.InlineKeyboardButton('Понимаю язык, но не могу свободно общаться', callback_data='Удовлетворительно знаю')
+    item4 = types.InlineKeyboardButton('Не владею языком', callback_data='Не владею русским языком')
+    item5 = types.InlineKeyboardButton('Назад', callback_data='bck_edu')
     markup3.add(item1, item2, item3, item4, item5)
-    bot.send_message(message.chat.id, '7⃣')
-    bot.send_message(message.chat.id, lang_dict['rus_language'][user.lang], reply_markup=markup3)
+    bot.send_message(message.chat.id, "7⃣")
+    bot.send_message(message.chat.id, "Уровень владения Русским языком", reply_markup=markup3)
 
 
 @bot.message_handler(content_types=['text'])
@@ -796,14 +757,14 @@ def english_language(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
     markup4 = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton(lang_dict['great'][user.lang], callback_data='Отлично владею')
-    item2 = types.InlineKeyboardButton(lang_dict['good'][user.lang], callback_data='Хорошо владею')
-    item3 = types.InlineKeyboardButton(lang_dict['satisfactorily'][user.lang], callback_data='Удовлетворительно владею')
-    item4 = types.InlineKeyboardButton(lang_dict['ne_vladeyu'][user.lang], callback_data='Не владею английским языком')
-    item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_uz')
+    item1 = types.InlineKeyboardButton('Владею как родным языком :)', callback_data='Отлично владею')
+    item2 = types.InlineKeyboardButton('Могу вести обычные беседы свободно и уверенно', callback_data='Хорошо владею')
+    item3 = types.InlineKeyboardButton('Понимаю язык, но не могу свободно общаться', callback_data='Удовлетворительно владею')
+    item4 = types.InlineKeyboardButton('Не владею языком', callback_data='Не владею английским языком')
+    item5 = types.InlineKeyboardButton('Назад', callback_data='bck_uz')
     markup4.add(item1, item2, item3, item4, item5)
-    bot.send_message(message.chat.id, '9⃣')
-    bot.send_message(message.chat.id, lang_dict['eng_language'][user.lang], reply_markup=markup4)
+    bot.send_message(message.chat.id, "9⃣")
+    bot.send_message(message.chat.id, "Уровень владения Английским языком", reply_markup=markup4)
 
 
 @bot.message_handler(content_types=['text'])
@@ -811,13 +772,13 @@ def about_work(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
     markup_o = types.InlineKeyboardMarkup(row_width=2)
-    item1 = types.InlineKeyboardButton(lang_dict['yes'][user.lang], callback_data='да')
-    item2 = types.InlineKeyboardButton(lang_dict['no'][user.lang], callback_data='нет')
-    item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_eng')
+    item1 = types.InlineKeyboardButton('Есть', callback_data='да')
+    item2 = types.InlineKeyboardButton('Нет', callback_data='нет')
+    item3 = types.InlineKeyboardButton('Назад', callback_data='bck_eng')
     markup_o.row(item1, item2)
     markup_o.row(item3)
-    bot.send_message(message.chat.id, '🔟')
-    bot.send_message(message.chat.id, lang_dict['work'][user.lang], reply_markup=markup_o)
+    bot.send_message(message.chat.id, "🔟")
+    bot.send_message(message.chat.id, "Есть ли у тебя опыт работы?", reply_markup=markup_o)
 
 
 @bot.message_handler(content_types=['text'])
@@ -825,10 +786,10 @@ def say_experience(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
     markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-    btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+    btn_1 = types.KeyboardButton('Начать сначала')
+    btn_2 = types.KeyboardButton('Назад')
     markup__v1.row(btn_1, btn_2)
-    msg = bot.send_message(message.chat.id, lang_dict['work_experience'][user.lang], reply_markup=markup__v1)
+    msg = bot.send_message(message.chat.id, "Опиши последний опыт работы коротко\n\n- Кем ты работал? \n- В какой организации? \n- Период работы", reply_markup=markup__v1)
     bot.register_next_step_handler(msg, ask_work_experience)
 
 
@@ -840,37 +801,37 @@ def ask_work_experience(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
         markup__v1.row(btn_1, btn_2)
 
-        if (work_experience == lang_dict['back'][user.lang]):
+        if (work_experience == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
 
             markup_o = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton(lang_dict['yes'][user.lang], callback_data='да')
-            item2 = types.InlineKeyboardButton(lang_dict['no'][user.lang], callback_data='нет')
-            item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_eng')
+            item1 = types.InlineKeyboardButton('Есть', callback_data='да')
+            item2 = types.InlineKeyboardButton('Нет', callback_data='нет')
+            item3 = types.InlineKeyboardButton('Назад', callback_data='bck_eng')
             markup_o.row(item1, item2)
             markup_o.row(item3)
-            bot.send_message(message.chat.id, '🔟', reply_markup=markup)
-            bot.send_message(message.chat.id, lang_dict['work'][user.lang], reply_markup=markup_o)
+            bot.send_message(message.chat.id, "🔟", reply_markup=markup)
+            bot.send_message(message.chat.id, "Есть ли у тебя опыт работы? (неважно официальный или неофициальный)", reply_markup=markup_o)
             return
-        if (work_experience == lang_dict['start'][user.lang] or work_experience == '/start'):
+        if (work_experience == 'Начать сначала' or work_experience == '/start'):
             process_start(message)
             return
         if not all(x.isascii() or x.isspace() or x.isalnum() for x in work_experience):
-            msg = bot.reply_to(message, lang_dict['wrong_work_experience'][user.lang])
+            msg = bot.reply_to(message, "Неверные данные")
             bot.register_next_step_handler(msg, ask_work_experience)
             return
         user.work_experience = work_experience
    
-        msg = bot.send_message(message.chat.id, lang_dict['time_for_call'][user.lang])
+        msg = bot.send_message(message.chat.id, "Подскажи нам, в какие дни недели и в какое время тебе будет комфортно пройти телефонное интервью")
         bot.register_next_step_handler(msg, ask_time_for_call)
 
        
@@ -879,7 +840,7 @@ def ask_work_experience(message):
     except Exception:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, ask_work_experience)
         
         
@@ -891,37 +852,37 @@ def ask_time_for_call(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-        btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+        btn_1 = types.KeyboardButton('Начать сначала')
+        btn_2 = types.KeyboardButton('Назад')
         markup__v1.row(btn_1, btn_2)
 
-        if (time_for_call == lang_dict['back'][user.lang]):
+        if (time_for_call == 'Назад'):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             
             markup_o = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton(lang_dict['yes'][user.lang], callback_data='да')
-            item2 = types.InlineKeyboardButton(lang_dict['no'][user.lang], callback_data='нет')
-            item3 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_eng')
+            item1 = types.InlineKeyboardButton('Есть', callback_data='да')
+            item2 = types.InlineKeyboardButton('Нет', callback_data='нет')
+            item3 = types.InlineKeyboardButton('Назад', callback_data='bck_eng')
             markup_o.row(item1, item2)
             markup_o.row(item3)
             
-            bot.send_message(message.chat.id, '🔟', reply_markup=markup__v1)
-            bot.send_message(message.chat.id, lang_dict['work'][user.lang], reply_markup=markup_o)
+            bot.send_message(message.chat.id, "🔟", reply_markup=markup__v1)
+            bot.send_message(message.chat.id, "Есть ли у тебя опыт работы? (неважно официальный или неофициальный)", reply_markup=markup_o)
             return
-        if (time_for_call == lang_dict['start'][user.lang] or time_for_call == '/start'):
+        if (time_for_call == 'Начать сначала' or time_for_call == '/start'):
             process_start(message)
             return
         if not all(x.isascii() or x.isspace() or x.isalnum() for x in time_for_call):
-            msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+            msg = bot.reply_to(message, "Неверные данные")
             bot.register_next_step_handler(msg, ask_time_for_call)
             return
         user.time_for_call = time_for_call
-        msg = bot.send_message(message.chat.id, lang_dict['thank_you'][user.lang])
+        msg = bot.send_message(message.chat.id, "Супер!👍\nСпасибо за прохождение опроса!\n\nТеперь наш рекрутер оценит твой профиль и созвонится с тобой для проведения первого интервью!")
 
         now = datetime.now()
         response_date = now.strftime("%d.%m.%Y %H:%M:%S")
@@ -936,25 +897,25 @@ def ask_time_for_call(message):
             
         wb = load_workbook(filename)
         ws = wb['Лист1']
-        ws.append([response_date, user.lang, user.cause, user.surname, user.name, user.number, birthday, town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
+        ws.append([response_date, user.cause, user.surname, user.name, user.number, birthday, town_and_district, user.education, user.uz_language, user.ru_language, user.en_language,
                    user.work_experience, user.time_for_call])
         wb.save(filename)
         print("saved 1")
         wb.close()
 
-        bot.send_message(message.chat.id, lang_dict['sendmail'][user.lang])
+        bot.send_message(message.chat.id, "Несколько советов  к телефонному интервью:\n\nУбедись, что тебе ничего не будет мешать и ты не будешь отвлекаться на посторонние дела во время телефонного интервью.\n\nЕсли тебе будет неудобно говорить - не стесняйся попросить перенести звонок.\n\nСписок примерных вопросов:\n1. Коротко расскажи о себе\n2. Подробнее расскажи о причинах того, почему ты хочешь работать в Билайн сотрудником Контакт-центра\n3. Что ты ожидаешь получить от работы в Билайн\n\nУдачи :)")
 
         markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn = types.KeyboardButton('/start')
         markup_start.row(btn)
 
-        bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
+        bot.send_message(message.chat.id, "Если хочешь пройти опрос заново нажми на кнопку: /start", reply_markup=markup_start)
 
 
     except Exception:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, ask_time_for_call)     
 
 
@@ -962,15 +923,15 @@ def ask_time_for_call(message):
 def say_thanks(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
-    msg = bot.send_message(message.chat.id, lang_dict['thank_you'][user.lang])
+    msg = bot.send_message(message.chat.id, "Супер!👍\nСпасибо за прохождение опроса!\n\nТеперь наш рекрутер оценит твой профиль и созвонится с тобой для проведения первого интервью!")
 
-    bot.send_message(message.chat.id, lang_dict['sendmail'][user.lang])
+    bot.send_message(message.chat.id, "Несколько советов  к телефонному интервью:\n\nУбедись, что тебе ничего не будет мешать и ты не будешь отвлекаться на посторонние дела во время телефонного интервью.\n\nЕсли тебе будет неудобно говорить - не стесняйся попросить перенести звонок.\n\nСписок примерных вопросов:\n1. Коротко расскажи о себе\n2. Подробнее расскажи о причинах того, почему ты хочешь работать в Билайн сотрудником Контакт-центра\n3. Что ты ожидаешь получить от работы в Билайн\n\nУдачи :)")
 
     markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     btn = types.KeyboardButton('/start')
     markup_start.row(btn)
 
-    bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
+    bot.send_message(message.chat.id, "Если хочешь пройти опрос заново нажми на кнопку: /start", reply_markup=markup_start)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -982,10 +943,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['higher'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Высшее", reply_markup=markup)
             education = call.data
             user.education = education
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -995,10 +956,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['incomplete_higher'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Неполное высшее", reply_markup=markup)
             education = call.data
             user.education = education
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1008,10 +969,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['secondary'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Среднее", reply_markup=markup)
             education = call.data
             user.education = education
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1021,10 +982,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['incomplete_secondary'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Неполное среднее", reply_markup=markup)
             education = call.data
             user.education = education
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1034,10 +995,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['secondary_special'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Среднее специальное", reply_markup=markup)
             education = call.data
             user.education = education
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1048,10 +1009,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['great'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Владею как родным языком :)", reply_markup=markup)
             uz_language = call.data
 
             user.uz_language = uz_language
@@ -1062,10 +1023,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['good'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Могу вести обычные беседы свободно и уверенно", reply_markup=markup)
             uz_language = call.data
 
             user.uz_language = uz_language
@@ -1076,10 +1037,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['satisfactorily'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Понимаю язык, но не могу свободно общаться", reply_markup=markup)
             uz_language = call.data
 
             user.uz_language = uz_language
@@ -1091,10 +1052,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['ne_vladeyu'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Не владею языком", reply_markup=markup)
             uz_language = call.data
 
             user.uz_language = uz_language
@@ -1106,10 +1067,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['great'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Владею как родным языком :)", reply_markup=markup)
             ru_language = call.data
 
             user.ru_language = ru_language
@@ -1120,10 +1081,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['good'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Могу вести обычные беседы свободно и уверенно", reply_markup=markup)
             ru_language = call.data
 
             user.ru_language = ru_language
@@ -1134,10 +1095,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['satisfactorily'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Понимаю язык, но не могу свободно общаться", reply_markup=markup)
             ru_language = call.data
 
             user.ru_language = ru_language
@@ -1149,10 +1110,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['ne_vladeyu'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Не владею языком", reply_markup=markup)
             ru_language = call.data
 
             user.ru_language = ru_language
@@ -1164,10 +1125,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['great'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Владею как родным языком :)", reply_markup=markup)
             en_language = call.data
 
             user.en_language = en_language
@@ -1178,10 +1139,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['good'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Могу вести обычные беседы свободно и уверенно", reply_markup=markup)
             en_language = call.data
 
             user.en_language = en_language
@@ -1192,10 +1153,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['satisfactorily'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Понимаю язык, но не могу свободно общаться", reply_markup=markup)
             en_language = call.data
 
             user.en_language = en_language
@@ -1207,10 +1168,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['ne_vladeyu'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Не владею языком", reply_markup=markup)
             en_language = call.data
 
             user.en_language = en_language
@@ -1222,7 +1183,7 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
             work = call.data
@@ -1236,12 +1197,12 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
             
             markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-            btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+            btn_1 = types.KeyboardButton('Начать сначала')
+            btn_2 = types.KeyboardButton('Назад')
             markup__v1.row(btn_1, btn_2)
 
             work = call.data
@@ -1249,14 +1210,14 @@ def edu(call):
             user.work = work
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             
-            msg = bot.send_message(message.chat.id, lang_dict['time_for_call'][user.lang], reply_markup=markup__v1 )   
+            msg = bot.send_message(message.chat.id, "Подскажи нам, в какие дни недели и в какое время тебе будет комфортно пройти телефонное интервью", reply_markup=markup__v1 )   
             bot.register_next_step_handler(msg, ask_time_for_call)
             
         if call.data == 'bck_edu':
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
 
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang])
+            bot.send_message(call.message.chat.id, "Назад")
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             education_1(message)
 
@@ -1264,7 +1225,7 @@ def edu(call):
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
 
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang])
+            bot.send_message(call.message.chat.id, "Назад")
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             uzb_language(message)
 
@@ -1272,7 +1233,7 @@ def edu(call):
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
 
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang])
+            bot.send_message(call.message.chat.id, "Назад")
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             rus_language(message)
 
@@ -1288,14 +1249,14 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
             user.town = 'Null'
             user.district = 'Null'
             user.town_and_district = 'Null'
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang], reply_markup=markup)
-            bot.send_message(message.chat.id, '5⃣')
+            bot.send_message(call.message.chat.id, "Назад", reply_markup=markup)
+            bot.send_message(message.chat.id, "5⃣")
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             ask_town(message)
 
@@ -1304,10 +1265,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang], reply_markup=markup)
+            bot.send_message(call.message.chat.id, "Назад", reply_markup=markup)
             bot.send_message(message.chat.id, '4⃣')
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             between_name_and_birthday(message)
@@ -1317,10 +1278,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['tashkent'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Ташкент", reply_markup=markup)
             town = call.data
             user.town = town
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -1335,10 +1296,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Olmazor'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Алмазар", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1350,10 +1311,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Yengihayot'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Янгихаёт", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1365,10 +1326,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Bektemir'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Бектемир", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1380,10 +1341,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Mirabad'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Мирабад", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1395,10 +1356,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Mirzo_Ulugbek'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Мирзо-Улугбек", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1410,10 +1371,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Sergeli'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Сергели", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1425,10 +1386,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Chilonzor'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Чиланзар", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1440,10 +1401,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Shayhontohur'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Шайхантаур", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1455,10 +1416,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Yunusobod'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Юнусабад", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1469,10 +1430,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Yakkosoroy'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Яккасарай", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1483,10 +1444,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Yashnobod'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Яшнабад", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1498,10 +1459,10 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
-            bot.reply_to(message, lang_dict['Uchtepa'][user.lang], reply_markup=markup)
+            bot.reply_to(message, "Учтепа", reply_markup=markup)
             district = call.data
 
             user.district = district
@@ -1513,7 +1474,7 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
             
             wb = load_workbook(filename)
@@ -1544,8 +1505,8 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-            btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+            btn_1 = types.KeyboardButton('Начать сначала')
+            btn_2 = types.KeyboardButton('Назад')
             markup__v1.row(btn_1, btn_2)
             
             wb = load_workbook(filename)
@@ -1585,7 +1546,7 @@ def edu(call):
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['choose_day'][user.lang], parse_mode='Markdown')
+                                        text="Выбери день", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_day)
 
@@ -1593,22 +1554,22 @@ def edu(call):
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
             markup_calendar_month = types.InlineKeyboardMarkup(row_width=4)
-            item1 = types.InlineKeyboardButton(lang_dict['january'][user.lang], callback_data='0 1')
-            item2 = types.InlineKeyboardButton(lang_dict['february'][user.lang], callback_data='0 2')
-            item3 = types.InlineKeyboardButton(lang_dict['march'][user.lang], callback_data='0 3')
-            item4 = types.InlineKeyboardButton(lang_dict['april'][user.lang], callback_data='0 4')
-            item5 = types.InlineKeyboardButton(lang_dict['may'][user.lang], callback_data='0 5')
-            item6 = types.InlineKeyboardButton(lang_dict['june'][user.lang], callback_data='0 6')
-            item7 = types.InlineKeyboardButton(lang_dict['july'][user.lang], callback_data='0 7')
-            item8 = types.InlineKeyboardButton(lang_dict['august'][user.lang], callback_data='0 8')
-            item9 = types.InlineKeyboardButton(lang_dict['september'][user.lang], callback_data='0 9')
-            item10 = types.InlineKeyboardButton(lang_dict['october'][user.lang], callback_data='1 0')
-            item11 = types.InlineKeyboardButton(lang_dict['november'][user.lang], callback_data='1 1')
-            item12 = types.InlineKeyboardButton(lang_dict['december'][user.lang], callback_data='1 2')
+            item1 = types.InlineKeyboardButton('Январь', callback_data='0 1')
+            item2 = types.InlineKeyboardButton('Февраль', callback_data='0 2')
+            item3 = types.InlineKeyboardButton('Март', callback_data='0 3')
+            item4 = types.InlineKeyboardButton('Апрель', callback_data='0 4')
+            item5 = types.InlineKeyboardButton('Май', callback_data='0 5')
+            item6 = types.InlineKeyboardButton('Июнь', callback_data='0 6')
+            item7 = types.InlineKeyboardButton('Июль', callback_data='0 7')
+            item8 = types.InlineKeyboardButton('Август', callback_data='0 8')
+            item9 = types.InlineKeyboardButton('Сентябрь', callback_data='0 9')
+            item10 = types.InlineKeyboardButton('Октябрь', callback_data='1 0')
+            item11 = types.InlineKeyboardButton('Ноябрь', callback_data='1 1')
+            item12 = types.InlineKeyboardButton('Декабрь', callback_data='1 2')
             markup_calendar_month.add(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11,
                                       item12)
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['choose_month'][user.lang], parse_mode='Markdown')
+                                        text="Выбери месяц", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_month)
 
@@ -1616,7 +1577,7 @@ def edu(call):
             chat_id = call.message.chat.id
             user = user_dict[chat_id]
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['choose_year'][user.lang], parse_mode='Markdown')
+                                        text="Выбери год", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_year)
 
@@ -1625,11 +1586,11 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup__v1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn_1 = types.KeyboardButton(lang_dict['start'][user.lang])
-            btn_2 = types.KeyboardButton(lang_dict['back'][user.lang])
+            btn_1 = types.KeyboardButton('Начать сначала')
+            btn_2 = types.KeyboardButton('Назад')
             markup__v1.row(btn_1, btn_2)
 
-            bot.send_message(call.message.chat.id, lang_dict['back'][user.lang], reply_markup=markup__v1)
+            bot.send_message(call.message.chat.id, "Назад" reply_markup=markup__v1)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             between_name_and_surname(message)
 
@@ -1646,11 +1607,11 @@ def edu(call):
             item1 = types.InlineKeyboardButton(user.day, callback_data='День')
             item2 = types.InlineKeyboardButton(user.month, callback_data='Месяц')
             item3 = types.InlineKeyboardButton(user.year, callback_data='Год')
-            item4 = types.InlineKeyboardButton(lang_dict['send'][user.lang], callback_data='Отправить')
-            item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_to_name')
+            item4 = types.InlineKeyboardButton('Отправить', callback_data='Отправить')
+            item5 = types.InlineKeyboardButton('Назад', callback_data='bck_to_name')
             markup_calendar_start.add(item1, item2, item3, item4, item5)
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['ask_birthday'][user.lang], parse_mode='Markdown')
+                                        text="Дата твоего рождения", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_start)
 
@@ -1665,11 +1626,11 @@ def edu(call):
             item1 = types.InlineKeyboardButton(user.day, callback_data='День')
             item2 = types.InlineKeyboardButton(user.month, callback_data='Месяц')
             item3 = types.InlineKeyboardButton(user.year, callback_data='Год')
-            item4 = types.InlineKeyboardButton(lang_dict['send'][user.lang], callback_data='Отправить')
-            item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_to_name')
+            item4 = types.InlineKeyboardButton('Отправить', callback_data='Отправить')
+            item5 = types.InlineKeyboardButton('Назад', callback_data='bck_to_name')
             markup_calendar_start.add(item1, item2, item3, item4, item5)
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['ask_birthday'][user.lang], parse_mode='Markdown')
+                                        text="Дата твоего рождения", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_start)
 
@@ -1684,11 +1645,11 @@ def edu(call):
             item1 = types.InlineKeyboardButton(user.day, callback_data='День')
             item2 = types.InlineKeyboardButton(user.month, callback_data='Месяц')
             item3 = types.InlineKeyboardButton(user.year, callback_data='Год')
-            item4 = types.InlineKeyboardButton(lang_dict['send'][user.lang], callback_data='Отправить')
-            item5 = types.InlineKeyboardButton(lang_dict['back'][user.lang], callback_data='bck_to_name')
+            item4 = types.InlineKeyboardButton('Отправить', callback_data='Отправить')
+            item5 = types.InlineKeyboardButton('Назад', callback_data='bck_to_name')
             markup_calendar_start.add(item1, item2, item3, item4, item5)
             msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                        text=lang_dict['ask_birthday'][user.lang], parse_mode='Markdown')
+                                        text="Дата твоего рождения", parse_mode='Markdown')
             msg = bot.edit_message_reply_markup(call.from_user.id, call.message.message_id,
                                                 reply_markup=markup_calendar_start)
 
@@ -1697,37 +1658,37 @@ def edu(call):
             user = user_dict[chat_id]
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            btn = types.KeyboardButton(lang_dict['start'][user.lang])
+            btn = types.KeyboardButton('Начать сначала')
             markup.row(btn)
 
             wihout_spaces = str(user.month).replace(" ", "")
 
             if user.day == '-' and user.month == '-' and user.year == '-':
-                bot.send_message(message.chat.id, lang_dict['data_ne_vibrana'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал дату")
             elif user.day == '-' and user.month == '-':
-                bot.send_message(message.chat.id, lang_dict['d/m_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал день и месяц")
             elif user.day == '-' and user.year == '-':
-                bot.send_message(message.chat.id, lang_dict['d/y_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал день и год")
             elif user.month == '-' and user.year == '-':
-                bot.send_message(message.chat.id, lang_dict['m/y_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал месяц и год")
             elif user.day == '-':
-                bot.send_message(message.chat.id, lang_dict['d_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал день")
             elif user.month == '-':
-                bot.send_message(message.chat.id, lang_dict['m_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал месяц")
             elif user.year == '-':
-                bot.send_message(message.chat.id, lang_dict['y_not_choosen'][user.lang])
+                bot.send_message(message.chat.id, "Ты не выбрал год")
             elif user.month == '0 2' and user.day == '30':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             elif user.month == '0 2' and user.day == '31':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             elif user.month == '0 4' and user.day == '31':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             elif user.month == '0 6' and user.day == '31':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             elif user.month == '0 9' and user.day == '31':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             elif user.month == '1 1' and user.day == '31':
-                bot.send_message(message.chat.id, lang_dict['data_not_exist'][user.lang])
+                bot.send_message(message.chat.id, "Такой даты не существует")
             else:
                 bot.send_message(message.chat.id, f'{user.day}.{wihout_spaces}.{user.year}', reply_markup=markup)            
                 now = datetime.now()
@@ -1739,7 +1700,7 @@ def edu(call):
                 if(now.year - int(user.year)<18):
                     wb = load_workbook(filename)
                     ws = wb['Лист1']
-                    ws.append([response_date, user.lang, user.cause, user.surname, user.name, user.number, birthday])
+                    ws.append([response_date, user.cause, user.surname, user.name, user.number, birthday])
                     #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                     wb.save(filename)
                     wb.close()
@@ -1750,14 +1711,14 @@ def edu(call):
                     if(user.month == '0 5' or user.month == '0 6' or user.month == '0 7' or user.month == '0 8' or user.month == '0 9' or user.month == '1 0' or user.month == '1 1' or user.month == '1 2'):
                         wb = load_workbook(filename)
                         ws = wb['Лист1']
-                        ws.append([response_date, user.lang, user.cause, user.surname, user.name, user.number, birthday])
+                        ws.append([response_date, user.cause, user.surname, user.name, user.number, birthday])
                         #ws.cell(row = ws.max_row, column = 5).font = opx.styles.Font(color='ff0816')
                         wb.save(filename)
                         wb.close()
                         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                         less_18(message)
                     else:
-                        bot.send_message(message.chat.id, '5⃣')
+                        bot.send_message(message.chat.id, "5⃣")
                         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                         ask_town(message)
                 
@@ -1765,13 +1726,13 @@ def edu(call):
      
                                          
                 else:
-                    bot.send_message(message.chat.id, '5⃣')
+                    bot.send_message(message.chat.id, "5⃣")
                     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
                     ask_town(message)
                     
 
     except Exception as e:
-        bot.reply_to(message, "Пожалуйста перезапустите бот, на сервере проводились работы\n\nIltimos, botni qayta ishga tushiring, serverda ish bajarildi")
+        bot.reply_to(message, "Пожалуйста перезапустите бот, на сервере проводились работы")
 
 
 
@@ -1780,13 +1741,13 @@ def less_18(message):
     chat_id = message.chat.id
     user = user_dict[chat_id]
 
-    bot.send_message(message.chat.id, lang_dict['less_than_18'][user.lang])
+    bot.send_message(message.chat.id, "Спасибо тебе за ответы на вопросы!\nЕсли твоя кандидатура подойдёт после рассмотрения, то мы тебе перезвоним.")
 
     markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     btn = types.KeyboardButton('/start')
     markup_start.row(btn)
 
-    bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
+    bot.send_message(message.chat.id, "Если хочешь пройти опрос заново нажми на кнопку: /start", reply_markup=markup_start)
     
 
 def say_the_cause(message):
@@ -1794,10 +1755,10 @@ def say_the_cause(message):
     user = user_dict[chat_id]
     
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    btn = types.KeyboardButton(lang_dict['start'][user.lang])
+    btn = types.KeyboardButton('Начать сначала')
     markup.row(btn)
     
-    msg = bot.send_message(message.chat.id, lang_dict['otkaz'][user.lang], reply_markup=markup)
+    msg = bot.send_message(message.chat.id, "Жаль :(\nПожалуйста, поделись с нами причинами твоего отказа.\nТы нам очень поможешь улучшить наши процессы рекрутинга", reply_markup=markup)
     bot.register_next_step_handler(msg, say_cause_of_rejecton)    
     
     
@@ -1809,15 +1770,15 @@ def say_cause_of_rejecton(message):
         user = user_dict[chat_id]
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        btn = types.KeyboardButton(lang_dict['start'][user.lang])
+        btn = types.KeyboardButton('Начать сначала')
         markup.row(btn)
 
         
-        if (cause == lang_dict['start'][user.lang] or cause == '/start'):
+        if (cause == 'Начать сначала' or cause == '/start'):
             process_start(message)
             return
         if not all(x.isascii() or x.isspace() or x.isalnum() for x in cause):
-            msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+            msg = bot.reply_to(message, "Неверные данные")
             bot.register_next_step_handler(msg, say_cause_of_rejecton)
             return
         user.cause = cause
@@ -1829,21 +1790,21 @@ def say_cause_of_rejecton(message):
             
         wb = load_workbook(filename)
         ws = wb['Лист1']
-        ws.append([response_date, user.lang, user.cause])
+        ws.append([response_date, user.cause])
         wb.save(filename)
         wb.close()
 
         markup_start = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         btn = types.KeyboardButton('/start')
         markup_start.row(btn)
-        bot.send_message(message.chat.id, lang_dict['thanks_for_comment'][user.lang])
-        bot.send_message(message.chat.id, lang_dict['again'][user.lang], reply_markup=markup_start)
+        bot.send_message(message.chat.id, "Спасибо вам за ваши комментарии!\nВаша обратная связь очень ценна для будущих соискателей 🙏")
+        bot.send_message(message.chat.id, "Если хочешь пройти опрос заново нажми на кнопку: /start", reply_markup=markup_start)
 
 
     except Exception:
         chat_id = message.chat.id
         user = user_dict[chat_id]
-        msg = bot.reply_to(message, lang_dict['wrong_data'][user.lang])
+        msg = bot.reply_to(message, "Неверные данные")
         bot.register_next_step_handler(msg, say_cause_of_rejecton)
     
 
