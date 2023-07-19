@@ -1590,7 +1590,7 @@ def edu(call):
             btn_2 = types.KeyboardButton('Назад')
             markup__v1.row(btn_1, btn_2)
 
-            bot.send_message(call.message.chat.id, "Назад" reply_markup=markup__v1)
+            bot.send_message(call.message.chat.id, "Назад", reply_markup=markup__v1)
             bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
             between_name_and_surname(message)
 
