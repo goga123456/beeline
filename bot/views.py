@@ -324,9 +324,7 @@ markup_calendar_year.add(item1, item2, item3, item4, item5, item6, item7, item8,
 
 @bot.message_handler(commands=['start'])
 def process_start(message):
-    bot.send_message(message.chat.id,
-                     'Привет!',
-                     reply_markup=markupp)
+    bot.send_message(message.chat.id,'Привет!')
 
     bot.register_next_step_handler(message, between_language_and_about_resume)
     
